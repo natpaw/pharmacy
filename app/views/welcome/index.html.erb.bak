@@ -1,0 +1,6 @@
+<head>
+<link rel="shortcut icon" type="<%= image_tag('favicon.png') %>"/>
+</head>
+<body>
+<h1>Моя аптека</h1>
+</body>
