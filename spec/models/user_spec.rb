@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+describe User, type: :model do
   describe 'Creation' do
     let(:test_user) { create(:user) }
 
@@ -10,6 +10,8 @@ RSpec.describe User, type: :model do
       end
     end
   end
+  it { should have_many(:orders) }
+  it { should have_many(:prescriptions) }
 end
 
 

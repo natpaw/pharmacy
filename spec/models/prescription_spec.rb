@@ -23,5 +23,7 @@ describe Prescription do
 	it { should belong_to(:medicine) }
 	
 	it { should have_many(:ordered_medicines) }
+	
+	it { should belong_to(:user) }
 
 end 

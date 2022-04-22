@@ -15,5 +15,6 @@ class Prescription < ApplicationRecord
 	belongs_to :doctor
 	belongs_to :pharmacist
 	belongs_to :medicine
+	belongs_to :user
 	has_many :ordered_medicines
 end
