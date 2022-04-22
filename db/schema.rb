@@ -10,9 +10,92 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2022_04_19_183856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "doctors", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.decimal "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "medicines", force: :cascade do |t|
+    t.string "name"
+    t.decimal "price"
+    t.integer "quantity"
+    t.boolean "prescription"
+    t.boolean "children"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ordered_medicines", force: :cascade do |t|
+    t.integer "quantity"
+    t.string "presc_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_id"
+    t.bigint "medicine_id"
+    t.bigint "prescription_id"
+    t.index ["medicine_id"], name: "index_ordered_medicines_on_medicine_id"
+    t.index ["order_id"], name: "index_ordered_medicines_on_order_id"
+    t.index ["prescription_id"], name: "index_ordered_medicines_on_prescription_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.string "comment"
+    t.decimal "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "pharmacist_id"
+    t.index ["pharmacist_id"], name: "index_orders_on_pharmacist_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "pharmacists", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "prescriptions", force: :cascade do |t|
+    t.string "number"
+    t.date "exp_date"
+    t.boolean "children"
+    t.integer "status", default: 0
+    t.integer "quantity"
+    t.decimal "commission"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "medicine_id"
+    t.bigint "doctor_id"
+    t.bigint "user_id"
+    t.index ["doctor_id"], name: "index_prescriptions_on_doctor_id"
+    t.index ["medicine_id"], name: "index_prescriptions_on_medicine_id"
+    t.index ["user_id"], name: "index_prescriptions_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "ordered_medicines", "medicines"
+  add_foreign_key "ordered_medicines", "orders"
+  add_foreign_key "ordered_medicines", "prescriptions"
+  add_foreign_key "orders", "pharmacists"
+  add_foreign_key "orders", "users"
+  add_foreign_key "prescriptions", "doctors"
+  add_foreign_key "prescriptions", "medicines"
+  add_foreign_key "prescriptions", "users"
 end
