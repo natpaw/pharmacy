@@ -1,9 +1,9 @@
 class OrderedMedicine < ApplicationRecord
-	validates :quantity, :order_id, :medicine_id, presence: true
-	validates :quantity, :order_id, :medicine_id, numericality: true
-	validates :presc_number, format: { with: /Ğ Ğ›[0-9]{6}$/ }
+	validates :quantity, presence: true
+	validates :quantity, numericality: { only_integer: true }
+	validates :presc_number, format: { with: /\âÑ[0-9]{6}\z/ }
 	
 	belongs_to :order
 	belongs_to :medicine
-	has_one :prescription
+	belongs_to :prescription
 end

@@ -1,8 +1,7 @@
 class Order < ApplicationRecord
-	validates :total, :status, :user_id, presence: true
+	validates :total, :status, presence: true
 	validates :total, numericality: true
 	validates :status, numericality: { only_integer: true, in: 0..2 }
-	validates :user_id, pharmacist_id, numericality: { only_integer: true }
 	
 	enum status: {
 		pending: 0,

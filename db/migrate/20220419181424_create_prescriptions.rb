@@ -5,14 +5,14 @@ class CreatePrescriptions < ActiveRecord::Migration[6.1]
       t.date :exp_date
       t.boolean :children
       t.integer :status, default: 0
-      t.integer :doctor_id
-      t.integer :user_id
-      t.integer :medicine_id
-	  t.integer :ordered_medicine_id
 	  t.integer :quantity
       t.decimal :commission
 
       t.timestamps
     end
+	add_reference :prescriptions, :medicine, foreign_key: true 
+	add_reference :prescriptions, :doctor, foreign_key: true 
+	add_reference :prescriptions, :user, foreign_key: true 
+	
   end
 end

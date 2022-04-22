@@ -10,6 +10,11 @@ RSpec.describe User, type: :model do
       end
     end
   end
+  describe User do
+	
+	it { should have_many(:prescriptions) }
+	
+end 
 end
 
 

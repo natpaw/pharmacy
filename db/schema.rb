@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2022_04_19_183856) do
   create_table "doctors", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.decimal "total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -33,12 +34,16 @@ ActiveRecord::Schema.define(version: 2022_04_19_183856) do
   end
 
   create_table "ordered_medicines", force: :cascade do |t|
-    t.integer "medicine_id"
     t.integer "quantity"
     t.string "presc_number"
-    t.integer "order_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_id"
+    t.bigint "medicine_id"
+    t.bigint "prescription_id"
+    t.index ["medicine_id"], name: "index_ordered_medicines_on_medicine_id"
+    t.index ["order_id"], name: "index_ordered_medicines_on_order_id"
+    t.index ["prescription_id"], name: "index_ordered_medicines_on_prescription_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -47,8 +52,10 @@ ActiveRecord::Schema.define(version: 2022_04_19_183856) do
     t.decimal "total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "user_id"
-    t.integer "pharmacist_id"
+    t.bigint "user_id"
+    t.bigint "pharmacist_id"
+    t.index ["pharmacist_id"], name: "index_orders_on_pharmacist_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "pharmacists", force: :cascade do |t|
@@ -63,14 +70,16 @@ ActiveRecord::Schema.define(version: 2022_04_19_183856) do
     t.date "exp_date"
     t.boolean "children"
     t.integer "status", default: 0
-    t.integer "doctor_id"
-    t.integer "user_id"
-    t.integer "medicine_id"
-	t.integer "ordered_medicine_id"
-	t.integer "quantity"
+    t.integer "quantity"
     t.decimal "commission"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "medicine_id"
+    t.bigint "doctor_id"
+    t.bigint "user_id"
+    t.index ["doctor_id"], name: "index_prescriptions_on_doctor_id"
+    t.index ["medicine_id"], name: "index_prescriptions_on_medicine_id"
+    t.index ["user_id"], name: "index_prescriptions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,4 +90,12 @@ ActiveRecord::Schema.define(version: 2022_04_19_183856) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "ordered_medicines", "medicines"
+  add_foreign_key "ordered_medicines", "orders"
+  add_foreign_key "ordered_medicines", "prescriptions"
+  add_foreign_key "orders", "pharmacists"
+  add_foreign_key "orders", "users"
+  add_foreign_key "prescriptions", "doctors"
+  add_foreign_key "prescriptions", "medicines"
+  add_foreign_key "prescriptions", "users"
 end

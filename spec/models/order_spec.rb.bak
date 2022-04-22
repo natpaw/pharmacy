@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe Pharmacist do
+describe Order do
 
 	it { should validate_presence_of(:first_name) }
 
 	it { should validate_presence_of(:last_name) }
 
-	it { should have_many(:order) }
+	it { should belong_to(:pharmacist) }
 
 end 

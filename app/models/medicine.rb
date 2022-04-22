@@ -6,5 +6,4 @@ class Medicine < ApplicationRecord
 	
 	has_many :prescriptions
 	has_many :ordered_medicines
-	has_many :orders, through: :ordered_medicines
 end

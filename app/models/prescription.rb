@@ -1,9 +1,10 @@
+
 class Prescription < ApplicationRecord
-	validates :number, :exp_date, :children, :status, :doctor_id, :medicine_id, :quantity, presence: true
-	validates :quantity, :user_id, :medicine_id, :doctor_id, :ordered_medicine_id, numericality: { only_integer: true }
-	validates :number, format: { with: /РЛ[0-9]{6}$/ }
-	validates :exp_date, comparison: { greater_than_or_equal_to: Date.today }
-	validates_date :exp_date
+	validates :number, :exp_date, :children, :status, :quantity, presence: true
+	validates :quantity, numericality: { only_integer: true }
+	validates :number, format: { with: /\РЛ[0-9]{6}\z/ }
+#	validates :exp_date, comparison: { greater_than_or_equal_to: Date.today }
+#	validates_date :exp_date
 	
 	enum status: {
 		active: 0,
@@ -14,5 +15,5 @@ class Prescription < ApplicationRecord
 	belongs_to :doctor
 	belongs_to :pharmacist
 	belongs_to :medicine
-	belongs_to :ordered_medicine
+	has_many :ordered_medicines
 end
