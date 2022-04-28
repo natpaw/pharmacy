@@ -14,7 +14,9 @@ describe Medicine do
 	
 	it { should validate_uniqueness_of(:name) }
 	
-	it { should validate_numericality_of(:quantity).only_integer}
+	it { should validate_numericality_of(:quantity)}
+	
+	it { should validate_numericality_of(:price)}
 
 	it { should have_many(:prescriptions) }
 	

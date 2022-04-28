@@ -17,13 +17,11 @@ RSpec.describe "/users", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) { FactoryBot.build(:user).attributes.symbolize_keys }
+ 
+  
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) { FactoryBot.attributes_for(:user, email: 'email') }
 
   describe "GET /index" do
     it "renders a successful response" do
@@ -79,22 +77,20 @@ RSpec.describe "/users", type: :request do
 
       it "renders a successful response (i.e. to display the 'new' template)" do
         post users_url, params: { user: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:new_attributes) { FactoryBot.attributes_for(:user, first_name: 'Rob') }
 
       it "updates the requested user" do
         user = User.create! valid_attributes
         patch user_url(user), params: { user: new_attributes }
         user.reload
-        skip("Add assertions for updated state")
+        expect(assigns(:user).attributes['first_name']).to match(new_attributes[:first_name])
       end
 
       it "redirects to the user" do
@@ -109,7 +105,7 @@ RSpec.describe "/users", type: :request do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         user = User.create! valid_attributes
         patch user_url(user), params: { user: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end

@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :medicine do
-    name { Faker::Cannabis.medical_use + Faker::Number.unique.number}
+    name { Faker::Cannabis.unique.strain}
     price { Faker::Number.decimal }
-	quantity{ Faker::Number.number }
+	quantity{ Faker::Number.number(digits: 6) }
 	prescription {true}
-	children {false}
+	children {true}
   end
 end
