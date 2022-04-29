@@ -6,7 +6,7 @@ class Order < ApplicationRecord
 	enum status: {
 		pending: 0,
 		declined: 1,
-		complited: 2
+		completed: 2
 	}
 	belongs_to :user
 	belongs_to :pharmacist
