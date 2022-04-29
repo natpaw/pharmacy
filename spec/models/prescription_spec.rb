@@ -10,8 +10,6 @@ describe Prescription do
 	
 	it { should validate_presence_of(:children) }
 	
-	it { should validate_presence_of(:status) }
-
 	it { should validate_numericality_of(:quantity).only_integer }
 	
 	it { should allow_values('РЛ159214', 'РЛ000000').for(:number) }

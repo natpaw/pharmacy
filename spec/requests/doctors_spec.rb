@@ -17,10 +17,8 @@ RSpec.describe "/doctors", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Doctor. As you add validations to Doctor, be sure to
   # adjust the attributes here as well.
-  let(:user) { FactoryBot.create(:user)}
-  let(:valid_attributes) {
-    FactoryBot.attributes_for(:doctor, user_id: user.id)
-  }
+   let(:user) { FactoryBot.create(:user)}
+  let(:valid_attributes) { FactoryBot.attributes_for(:doctor, user_id: user.id) }
 
   let(:invalid_attributes) {
     FactoryBot.attributes_for(:doctor, user_id: '')
@@ -80,22 +78,23 @@ RSpec.describe "/doctors", type: :request do
 
       it "renders a successful response (i.e. to display the 'new' template)" do
         post doctors_url, params: { doctor: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end
 
   describe "PATCH /update" do
     context "with valid parameters" do
+		let(:new_user) { FactoryBot.create(:user)}
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryBot.attributes_for(:doctor, user_id: new_user.id)
       }
 
       it "updates the requested doctor" do
         doctor = Doctor.create! valid_attributes
         patch doctor_url(doctor), params: { doctor: new_attributes }
         doctor.reload
-        skip("Add assertions for updated state")
+        expect(assigns(:doctor).attributes['user_id']).to match(new_user.id)
       end
 
       it "redirects to the doctor" do
@@ -110,7 +109,7 @@ RSpec.describe "/doctors", type: :request do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         doctor = Doctor.create! valid_attributes
         patch doctor_url(doctor), params: { doctor: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end

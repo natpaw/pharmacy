@@ -65,6 +65,6 @@ class OrderedMedicinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ordered_medicine_params
-      params.fetch(:ordered_medicine, {})
+      params.require(:ordered_medicine).permit(:presc_number, :quantity, :order_id, :prescription_id, :medicine_id)
     end
 end
