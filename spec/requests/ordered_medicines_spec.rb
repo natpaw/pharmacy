@@ -24,13 +24,12 @@ RSpec.describe "/ordered_medicines", type: :request do
   let(:prescription) { create :prescription, user_id: user.id, doctor_id: doctor.id, medicine_id: medicine.id }
   let(:order) { create :order, user_id: user.id, pharmacist_id: pharmacist.id }
   
-  
   let(:valid_attributes) {
-    FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, prescription_id: prescription.id, medicine_id: medicine.id)
+     FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, prescription_id: prescription.id, medicine_id: medicine.id)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryBot.attributes_for(:ordered_medicine, order_id: 'x', prescription_id: prescription.id, medicine_id: medicine.id)
   }
 
   describe "GET /index" do
@@ -87,22 +86,23 @@ RSpec.describe "/ordered_medicines", type: :request do
 
       it "renders a successful response (i.e. to display the 'new' template)" do
         post ordered_medicines_url, params: { ordered_medicine: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end
 
   describe "PATCH /update" do
     context "with valid parameters" do
+	  let(:new_medicine) { FactoryBot.create(:medicine)}
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, prescription_id: prescription.id, medicine_id: new_medicine.id)
       }
 
       it "updates the requested ordered_medicine" do
         ordered_medicine = OrderedMedicine.create! valid_attributes
         patch ordered_medicine_url(ordered_medicine), params: { ordered_medicine: new_attributes }
         ordered_medicine.reload
-        skip("Add assertions for updated state")
+        expect(assigns(:ordered_medicine).attributes['medicine_id']).to match(new_medicine.id)
       end
 
       it "redirects to the ordered_medicine" do
@@ -117,7 +117,7 @@ RSpec.describe "/ordered_medicines", type: :request do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         ordered_medicine = OrderedMedicine.create! valid_attributes
         patch ordered_medicine_url(ordered_medicine), params: { ordered_medicine: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end

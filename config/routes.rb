@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :ordered_medicines
   resources :prescriptions
   resources :orders do
 		resources :ordered_medicines

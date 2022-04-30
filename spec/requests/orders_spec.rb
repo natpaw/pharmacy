@@ -21,7 +21,7 @@ RSpec.describe "/orders", type: :request do
   let(:pharmacist) { create :pharmacist, user_id: user.id }
   
   let(:valid_attributes) {
-    FactoryBot.attributes_for(:order, user_id: user.id, pharmacist_id: pharmacist.id)
+   { user_id: user.id, pharmacist_id: pharmacist.id, status: :pending, comment: 'some comment', total: 20}
   }
 
   let(:invalid_attributes) {
