@@ -12,6 +12,9 @@ describe User, type: :model do
   end
   it { should have_many(:orders) }
   it { should have_many(:prescriptions) }
+  it { should have_one(:doctor) }
+  it { should have_one(:pharmacist) }
+  
 end
 
 
