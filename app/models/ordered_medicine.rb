@@ -5,5 +5,5 @@ class OrderedMedicine < ApplicationRecord
 	
 	belongs_to :order
 	belongs_to :medicine
-	belongs_to :prescription
+	has_one :prescription
 end

@@ -1,12 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>First name:</strong>
+  <strong>Ім'я:</strong>
   <%= @user.first_name %>
 </p>
 
 <p>
-  <strong>Last name:</strong>
+  <strong>Прізвище:</strong>
   <%= @user.last_name %>
 </p>
 
@@ -15,5 +15,5 @@
   <%= @user.email %>
 </p>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Редагувати', edit_user_path(@user) %> |
+<%= link_to 'Назад', users_path %>

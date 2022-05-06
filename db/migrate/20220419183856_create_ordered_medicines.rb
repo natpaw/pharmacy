@@ -7,6 +7,5 @@ class CreateOrderedMedicines < ActiveRecord::Migration[6.1]
     end
 	add_reference :ordered_medicines, :order, foreign_key: true 
 	add_reference :ordered_medicines, :medicine, foreign_key: true 
-	add_reference :ordered_medicines, :prescription, foreign_key: true 
   end
 end

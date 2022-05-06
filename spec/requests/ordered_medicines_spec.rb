@@ -19,17 +19,15 @@ RSpec.describe "/ordered_medicines", type: :request do
   # adjust the attributes here as well.
   let(:user) { FactoryBot.create(:user)}
   let(:medicine) { FactoryBot.create(:medicine)}
-  let(:doctor) { create :doctor, user_id: user.id }
-  let(:pharmacist) { create :pharmacist, user_id: user.id }
-  let(:prescription) { create :prescription, user_id: user.id, doctor_id: doctor.id, medicine_id: medicine.id }
+  let(:pharmacist) { FactoryBot.create(:pharmacist) }
   let(:order) { create :order, user_id: user.id, pharmacist_id: pharmacist.id }
   
   let(:valid_attributes) {
-     FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, prescription_id: prescription.id, medicine_id: medicine.id)
+     FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, medicine_id: medicine.id)
   }
 
   let(:invalid_attributes) {
-    FactoryBot.attributes_for(:ordered_medicine, order_id: 'x', prescription_id: prescription.id, medicine_id: medicine.id)
+    FactoryBot.attributes_for(:ordered_medicine, order_id: 'x', medicine_id: medicine.id)
   }
 
   describe "GET /index" do
@@ -95,7 +93,7 @@ RSpec.describe "/ordered_medicines", type: :request do
     context "with valid parameters" do
 	  let(:new_medicine) { FactoryBot.create(:medicine)}
       let(:new_attributes) {
-        FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, prescription_id: prescription.id, medicine_id: new_medicine.id)
+        FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, medicine_id: new_medicine.id)
       }
 
       it "updates the requested ordered_medicine" do

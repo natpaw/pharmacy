@@ -1,10 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Pharmacists</h1>
+<h1>Фармацевти</h1>
 
 <table>
   <thead>
     <tr>
+      <th>Ім'я</th>
+      <th>Прізвище</th>
+      <th>Email</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -12,9 +15,12 @@
   <tbody>
     <% @pharmacists.each do |pharmacist| %>
       <tr>
-        <td><%= link_to 'Show', pharmacist %></td>
-        <td><%= link_to 'Edit', edit_pharmacist_path(pharmacist) %></td>
-        <td><%= link_to 'Destroy', pharmacist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<td><%= pharmacist.first_name %></td>
+        <td><%= pharmacist.last_name %></td>
+        <td><%= pharmacist.email %></td>
+        <td><%= link_to 'Показати', pharmacist %></td>
+        <td><%= link_to 'Редагувати', edit_pharmacist_path(pharmacist) %></td>
+        <td><%= link_to 'Видалити', pharmacist, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -22,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Pharmacist', new_pharmacist_path %>
+<%= link_to 'Новий фармацевт', new_pharmacist_path %>

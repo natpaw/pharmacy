@@ -1,4 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_medicine_path(@medicine) %> |
-<%= link_to 'Back', medicines_path %>
+<p>
+  <strong>Назва:</strong>
+  <%= @medicine.name %>
+</p>
+
+<p>
+  <strong>Ціна:</strong>
+  <%= @medicine.price %>
+</p>
+
+<p>
+  <strong>Кількість:</strong>
+  <%= @medicine.quantity %>
+</p>
+
+<p>
+  <strong>Дитячий:</strong>
+  <%= @medicine.quantity %>
+</p>
+
+<p>
+  <strong>Рецепт:</strong>
+  <%= @medicine.quantity %>
+</p>
+
+<%= link_to 'Редагувати', edit_medicine_path(@medicine) %> |
+<%= link_to 'Назад', medicines_path %>

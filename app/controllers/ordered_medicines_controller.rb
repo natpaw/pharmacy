@@ -25,7 +25,7 @@ class OrderedMedicinesController < ApplicationController
 
     respond_to do |format|
       if @ordered_medicine.save
-        format.html { redirect_to ordered_medicine_url(@ordered_medicine), notice: "Ordered medicine was successfully created." }
+        format.html { redirect_to order_ordered_medicines_url(@ordered_medicine), notice: "Ordered medicine was successfully created." }
         format.json { render :show, status: :created, location: @ordered_medicine }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class OrderedMedicinesController < ApplicationController
   def update
     respond_to do |format|
       if @ordered_medicine.update(ordered_medicine_params)
-        format.html { redirect_to ordered_medicine_url(@ordered_medicine), notice: "Ordered medicine was successfully updated." }
+        format.html { redirect_to order_ordered_medicine_url(@ordered_medicine), notice: "Ordered medicine was successfully updated." }
         format.json { render :show, status: :ok, location: @ordered_medicine }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class OrderedMedicinesController < ApplicationController
     @ordered_medicine.destroy
 
     respond_to do |format|
-      format.html { redirect_to ordered_medicines_url, notice: "Ordered medicine was successfully destroyed." }
+      format.html { redirect_to order_ordered_medicines_url, notice: "Ordered medicine was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -65,6 +65,6 @@ class OrderedMedicinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ordered_medicine_params
-      params.require(:ordered_medicine).permit(:presc_number, :quantity, :order_id, :prescription_id, :medicine_id)
+      params.require(:ordered_medicine).permit(:presc_number, :quantity, :order_id, :medicine_id)
     end
 end

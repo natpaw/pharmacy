@@ -8,8 +8,6 @@ describe Prescription do
 	
 	it { should validate_presence_of(:exp_date) }
 	
-	it { should validate_presence_of(:children) }
-	
 	it { should validate_numericality_of(:quantity).only_integer }
 	
 	it { should allow_values('РЛ159214', 'РЛ000000').for(:number) }
@@ -19,9 +17,5 @@ describe Prescription do
 	it { should belong_to(:doctor) }
 
 	it { should belong_to(:medicine) }
-	
-	it { should have_many(:ordered_medicines) }
-	
-	it { should belong_to(:user) }
 
 end 

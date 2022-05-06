@@ -1,7 +1,5 @@
 class Order < ApplicationRecord
-	validates :total, :status, presence: true
-	validates :total, numericality: true
-
+	validates :status, presence: true
 	
 	enum status: {
 		pending: 0,

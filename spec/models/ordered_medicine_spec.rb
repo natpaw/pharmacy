@@ -12,7 +12,7 @@ describe OrderedMedicine do
 	
 	it { should belong_to(:order) }
 
-	it { should belong_to(:prescription) }
+	it { should have_one(:prescription) }
 	
 	it { should belong_to(:medicine) }
 

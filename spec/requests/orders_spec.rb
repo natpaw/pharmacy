@@ -18,10 +18,10 @@ RSpec.describe "/orders", type: :request do
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
   let(:user) { FactoryBot.create(:user)}
-  let(:pharmacist) { create :pharmacist, user_id: user.id }
+  let(:pharmacist) { FactoryBot.create(:pharmacist) }
   
   let(:valid_attributes) {
-   { user_id: user.id, pharmacist_id: pharmacist.id, status: :pending, comment: 'some comment', total: 20}
+   { user_id: user.id, pharmacist_id: pharmacist.id, status: :pending, comment: 'some comment'}
   }
 
   let(:invalid_attributes) {
