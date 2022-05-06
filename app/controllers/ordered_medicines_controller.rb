@@ -27,7 +27,7 @@ class OrderedMedicinesController < ApplicationController
 
     respond_to do |format|
       if @ordered_medicine.save
-        format.html { redirect_to order_ordered_medicines_url(@ordered_medicine), notice: "Ordered medicine was successfully created." }
+        format.html { redirect_to order_ordered_medicines_path, notice: "Ordered medicine was successfully created." }
         format.json { render :show, status: :created, location: @ordered_medicine }
       else
         format.html { render :new, status: :unprocessable_entity }

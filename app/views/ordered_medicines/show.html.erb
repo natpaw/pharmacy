@@ -13,5 +13,5 @@
   <strong>Кількість:</strong>
   <%= @ordered_medicine.quantity %>
 </p>
-<%= link_to 'Редагувати', edit_order_ordered_medicine_path(@ordered_medicine) %> |
+<%= link_to 'Редагувати', edit_order_ordered_medicine_path(order_id: @order.id, id: @ordered_medicine.id) %> |
 <%= link_to 'Назад', order_ordered_medicines_path %>
