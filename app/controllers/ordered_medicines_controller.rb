@@ -40,7 +40,7 @@ class OrderedMedicinesController < ApplicationController
   def update
     respond_to do |format|
       if @ordered_medicine.update(ordered_medicine_params)
-        format.html { redirect_to order_ordered_medicine_url(@ordered_medicine), notice: "Ordered medicine was successfully updated." }
+        format.html { redirect_to order_ordered_medicines_path, notice: "Ordered medicine was successfully updated." }
         format.json { render :show, status: :ok, location: @ordered_medicine }
       else
         format.html { render :edit, status: :unprocessable_entity }

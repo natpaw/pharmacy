@@ -1,6 +1,6 @@
 <% url = ordered_medicine.id.present? ? order_ordered_medicine_path(id: ordered_medicine.id, order_id: ordered_medicine.order.id) : order_ordered_medicines_path %>
-<% method = ordered_medicine.id.present? ? 'patch' : 'post' %>
-<%= form_with(model: ordered_medicine, url: url, method: method) do |form| %>
+<% method = ordered_medicine.id.present? ? 'get' : 'post' %>
+<%= form_with(model: [@order, ordered_medicine], local: true) do |form| %>
   <% if ordered_medicine.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(ordered_medicine.errors.count, "error") %> prohibited this ordered_medicine from being saved:</h2>
