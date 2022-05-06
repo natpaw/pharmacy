@@ -1,7 +1,8 @@
 class OrderedMedicinesController < ApplicationController
 	before_action :get_order
   before_action :set_ordered_medicine, only: %i[ show edit update destroy ]
-
+  
+#some_params = params.require(:ordered_medicine).permit(:presc_number, :quantity, :medicine_id, :order_id)
   # GET /ordered_medicines or /ordered_medicines.json
   def index
     @ordered_medicines = @order.ordered_medicines
@@ -67,6 +68,7 @@ class OrderedMedicinesController < ApplicationController
     end
 	
 	def get_order
+		
 		@order = Order.find(params[:order_id])
 	end
 

@@ -15,9 +15,9 @@
 	  	<td><%= ordered_medicine.presc_number %></td>
 		<td><%= ordered_medicine.medicine.name %></td>
         <td><%= ordered_medicine.quantity %></td>
-        <td><%= link_to 'Показати', ordered_medicine %></td>
-        <td><%= link_to 'Редагувати', edit_ordered_medicine_path(ordered_medicine) %></td>
-        <td><%= link_to 'Видалити', ordered_medicine, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+        <td><%= link_to 'Показати', order_ordered_medicines_url(ordered_medicine) %></td>
+        <td><%= link_to 'Редагувати', edit_order_ordered_medicine_path(id: ordered_medicine.id) %></td>
+        <td><%= link_to 'Видалити', order_ordered_medicine_path(ordered_medicine), method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
       </tr>
     <% end %>
   </tbody>
