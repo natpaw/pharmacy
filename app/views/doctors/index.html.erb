@@ -1,10 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Doctors</h1>
+<h1>Лікарі</h1>
 
 <table>
   <thead>
     <tr>
+      <th>Ім'я</th>
+      <th>Прізвище</th>
+      <th>Email</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -12,9 +15,12 @@
   <tbody>
     <% @doctors.each do |doctor| %>
       <tr>
-        <td><%= link_to 'Show', doctor %></td>
-        <td><%= link_to 'Edit', edit_doctor_path(doctor) %></td>
-        <td><%= link_to 'Destroy', doctor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<td><%= doctor.first_name %></td>
+        <td><%= doctor.last_name %></td>
+        <td><%= doctor.email %></td>
+        <td><%= link_to 'Показати', doctor %></td>
+        <td><%= link_to 'Редагувати', edit_doctor_path(doctor) %></td>
+        <td><%= link_to 'Видалити', doctor, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -22,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Doctor', new_doctor_path %>
+<%= link_to 'Новий лікар', new_doctor_path %>

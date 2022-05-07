@@ -1,4 +1,17 @@
 <p id="notice"><%= notice %></p>
+<p>
+  <strong>Номер:</strong>
+  <%= @ordered_medicine.presc_number %>
+</p>
 
-<%= link_to 'Edit', edit_ordered_medicine_path(@ordered_medicine) %> |
-<%= link_to 'Back', ordered_medicines_path %>
+<p>
+  <strong>Ліки:</strong>
+  <%= @ordered_medicine.medicine.name %>
+</p>
+
+<p>
+  <strong>Кількість:</strong>
+  <%= @ordered_medicine.quantity %>
+</p>
+<%= link_to 'Редагувати', edit_order_ordered_medicine_path(order_id: @order.id, id: @ordered_medicine.id) %> |
+<%= link_to 'Назад', order_ordered_medicines_path %>

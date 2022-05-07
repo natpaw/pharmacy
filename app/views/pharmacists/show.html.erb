@@ -1,4 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_pharmacist_path(@pharmacist) %> |
-<%= link_to 'Back', pharmacists_path %>
+<p>
+  <strong>Ім'я:</strong>
+  <%= @pharmacist.first_name %>
+</p>
+
+<p>
+  <strong>Прізвище:</strong>
+  <%= @pharmacist.last_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @pharmacist.email %>
+</p>
+
+<%= link_to 'Редагувати', edit_pharmacist_path(@pharmacist) %> |
+<%= link_to 'Назад', pharmacists_path %>

@@ -11,7 +11,33 @@
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="field">
+    <%= form.label :"Назва" %>
+    <%= form.text_field :name %>
   </div>
+
+  <div class="field">
+    <%= form.label :"Ціна" %>
+    <%= form.number_field :price, step: 0.01 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :"Кількість" %>
+    <%= form.number_field :quantity %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Дитячий" %>
+    <%= form.check_box :children %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Рецепт" %>
+    <%= form.check_box :prescription %>
+  </div>
+  
+  <div class="actions">
+    <%= form.submit "Зберегти"%>
+  </div>
+  
 <% end %>

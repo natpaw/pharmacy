@@ -1,4 +1,6 @@
-<%= form_with(model: ordered_medicine) do |form| %>
+<% url = ordered_medicine.id.present? ? order_ordered_medicine_path(id: ordered_medicine.id, order_id: ordered_medicine.order.id) : order_ordered_medicines_path %>
+<% method = ordered_medicine.id.present? ? 'get' : 'post' %>
+<%= form_with(model: [@order, ordered_medicine], local: true) do |form| %>
   <% if ordered_medicine.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(ordered_medicine.errors.count, "error") %> prohibited this ordered_medicine from being saved:</h2>
@@ -11,7 +13,26 @@
     </div>
   <% end %>
 
+    <div class="field">
+    <%= form.label :"Рецепт" %>
+    <%= form.text_field :presc_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :"Кількість" %>
+    <%= form.number_field :quantity %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Ліки" %>
+    <%= form.number_field :medicine_id %>
+  </div>
+  
+  <div class="field">
+    <%= form.hidden_field :order_id, value: params[:order_id] %>
+  </div>
+  
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Зберегти"%>
   </div>
 <% end %>

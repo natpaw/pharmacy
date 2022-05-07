@@ -10,8 +10,41 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
+  
+  <div class="field">
+    <%= form.label :Номер %>
+    <%= form.text_field :number %>
   </div>
+
+  <div class="field">
+    <%= form.label :"Закінчується" %>
+    <%= form.date_field :exp_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :"Кількість" %>
+    <%= form.number_field :quantity %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Дитячий"%>
+    <%= form.check_box :children %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Ліки" %>
+    <%= form.number_field :medicine_id %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Лікар" %>
+    <%= form.number_field :doctor_id %>
+  </div>
+  
+  <div class="actions">
+    <%= form.submit "Зберегти"%>
+  </div>
+  
+
+  
 <% end %>

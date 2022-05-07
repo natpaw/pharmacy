@@ -17,11 +17,10 @@ RSpec.describe "/doctors", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Doctor. As you add validations to Doctor, be sure to
   # adjust the attributes here as well.
-   let(:user) { FactoryBot.create(:user)}
-  let(:valid_attributes) { FactoryBot.attributes_for(:doctor, user_id: user.id) }
-
+  let(:valid_attributes) { FactoryBot.attributes_for(:doctor)}
+  
   let(:invalid_attributes) {
-    FactoryBot.attributes_for(:doctor, user_id: '')
+    FactoryBot.attributes_for(:doctor, email: '')
   }
 
   describe "GET /index" do
@@ -85,16 +84,15 @@ RSpec.describe "/doctors", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-		let(:new_user) { FactoryBot.create(:user)}
       let(:new_attributes) {
-        FactoryBot.attributes_for(:doctor, user_id: new_user.id)
+        FactoryBot.attributes_for(:doctor, first_name: 'Rob')
       }
 
       it "updates the requested doctor" do
         doctor = Doctor.create! valid_attributes
         patch doctor_url(doctor), params: { doctor: new_attributes }
         doctor.reload
-        expect(assigns(:doctor).attributes['user_id']).to match(new_user.id)
+        expect(assigns(:doctor).attributes['first_name']).to match(new_attributes[:first_name])
       end
 
       it "redirects to the doctor" do

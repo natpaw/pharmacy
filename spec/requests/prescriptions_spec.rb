@@ -17,16 +17,15 @@ RSpec.describe "/prescriptions", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Prescription. As you add validations to Prescription, be sure to
   # adjust the attributes here as well.
-  let(:user) { FactoryBot.create(:user)}
   let(:medicine) { FactoryBot.create(:medicine)}
-  let(:doctor) { create :doctor, user_id: user.id }
+  let(:doctor) { FactoryBot.create(:doctor) }
   
   let(:valid_attributes) {
-    FactoryBot.attributes_for(:prescription, user_id: user.id, doctor_id: doctor.id, medicine_id: medicine.id)
+    FactoryBot.attributes_for(:prescription, doctor_id: doctor.id, medicine_id: medicine.id)
   }
 
   let(:invalid_attributes) {
-    FactoryBot.attributes_for(:prescription, user_id: user.id, doctor_id: doctor.id, medicine_id: '')
+    FactoryBot.attributes_for(:prescription, doctor_id: doctor.id, medicine_id: '')
   }
 
   describe "GET /index" do
@@ -90,16 +89,16 @@ RSpec.describe "/prescriptions", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-	  let(:new_user) { FactoryBot.create(:user)}
+	  let(:new_medicine) { FactoryBot.create(:medicine)}
       let(:new_attributes) {
-        FactoryBot.attributes_for(:prescription, user_id: new_user.id, doctor_id: doctor.id, medicine_id: medicine.id)
+        FactoryBot.attributes_for(:prescription, doctor_id: doctor.id, medicine_id: new_medicine.id)
       }
 
       it "updates the requested prescription" do
         prescription = Prescription.create! valid_attributes
         patch prescription_url(prescription), params: { prescription: new_attributes }
         prescription.reload
-        expect(assigns(:prescription).attributes['user_id']).to match(new_user.id)
+        expect(assigns(:prescription).attributes['medicine_id']).to match(new_medicine.id)
       end
 
       it "redirects to the prescription" do

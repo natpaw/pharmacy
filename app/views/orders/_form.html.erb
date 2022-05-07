@@ -11,7 +11,27 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= form.label :"Користувач" %>
+    <%= form.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :"Фармацевт" %>
+    <%= form.number_field :pharmacist_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :"Коментар" %>
+    <%= form.text_area :comment %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Статус" %>
+    <%= form.select :status, [["В очікуванні", "pending" ], ["Відмінений", "declined"], ["Завершений", "complited"]] %>
+  </div>
+  
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Зберегти"%>
   </div>
 <% end %>

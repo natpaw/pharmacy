@@ -1,6 +1,6 @@
-<h1>Editing Order</h1>
+<h1>Редагувати замовлення</h1>
 
 <%= render 'form', order: @order %>
-
-<%= link_to 'Show', @order %> |
-<%= link_to 'Back', orders_path %>
+<%= link_to 'Замовлені ліки', order_ordered_medicines_url(order_id: @order.id) %>
+<%= link_to 'Показати', @order %> |
+<%= link_to 'Назад', orders_path %>

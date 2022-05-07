@@ -1,20 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Prescriptions</h1>
+<h1>Рецепти</h1>
 
 <table>
   <thead>
     <tr>
-      <th colspan="3"></th>
+		<th>Номер</th>
+		<th>Ліки</th>
+		<th>Лікар</th>
+		<th>Статус</th>
+      <th colspan="4"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @prescriptions.each do |prescription| %>
       <tr>
-        <td><%= link_to 'Show', prescription %></td>
-        <td><%= link_to 'Edit', edit_prescription_path(prescription) %></td>
-        <td><%= link_to 'Destroy', prescription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<td><%= prescription.number %></td>
+		<td><%= prescription.medicine.name %></td>
+        <td><%= prescription.doctor.first_name + " " + prescription.doctor.last_name %></td>
+        <td><%= prescription.status %></td>
+        <td><%= link_to 'Показати', prescription %></td>
+        <td><%= link_to 'Редагувати', edit_prescription_path(prescription) %></td>
+        <td><%= link_to 'Видалити', prescription, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -22,4 +30,4 @@
 
 <br>
 
-<%= link_to 'New Prescription', new_prescription_path %>
+<%= link_to 'Новий рецепт', new_prescription_path %>

@@ -65,6 +65,6 @@ class PharmacistsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pharmacist_params
-      params.require(:pharmacist).permit(:user_id)
+      params.require(:pharmacist).permit(:first_name, :last_name, :email)
     end
 end
