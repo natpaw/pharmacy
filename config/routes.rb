@@ -10,10 +10,9 @@ Rails.application.routes.draw do
   resources :users
   get 'welcome/index'
   root 'welcome#index'
+  devise_for :users, controllers: { sessions: 'users/sessions' }
   post "sign_up", to: "users#create"
   get "sign_up", to: "users#new"
-  post "login", to: "sessions#create"
-  delete "logout", to: "sessions#destroy"
-  get "login", to: "sessions#new"
+	get "users/sign_in", to: "users/sessions#new"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

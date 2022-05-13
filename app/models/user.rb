@@ -7,5 +7,5 @@ class User < ApplicationRecord
 	validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i, message: 'Only emails allowed' }
 		
 	has_many :orders
-
+	devise :database_authenticatable, :timeoutable
 end

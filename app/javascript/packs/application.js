@@ -13,8 +13,6 @@ Turbolinks.start()
 ActiveStorage.start()
 require("../stylesheets/application.scss")
 
-…
-
 require("@popperjs/core")
 
 import "bootstrap"
