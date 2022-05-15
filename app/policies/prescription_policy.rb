@@ -13,7 +13,7 @@ class PrescriptionPolicy < ApplicationPolicy
       elsif user.try(:admin?)
         scope.all
 	  elsif user.class.table_name == "doctors"
-        scope.where(prescription_id: @user.prescription_ids)
+        scope.where(doctor_id: @user.id)
 	  else
 		raise Pundit::NotAuthorizedError
       end
