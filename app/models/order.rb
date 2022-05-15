@@ -8,6 +8,6 @@ class Order < ApplicationRecord
 	}
 	belongs_to :user
 	belongs_to :pharmacist
-	has_many :ordered_medicines
+	has_many :ordered_medicines, dependent: :destroy
 
 end
