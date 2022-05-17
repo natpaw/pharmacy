@@ -4,10 +4,12 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
     @users = User.all
+	authorize @users
   end
 
   # GET /users/1 or /users/1.json
   def show
+	authorize @user
   end
 
   # GET /users/new
@@ -17,6 +19,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+	authorize @user
   end
 
   # POST /users or /users.json
@@ -36,6 +39,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
+	authorize @user
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
@@ -49,6 +53,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
+	authorize @user
     @user.destroy
 
     respond_to do |format|

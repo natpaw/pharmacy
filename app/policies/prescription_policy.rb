@@ -1,18 +1,11 @@
 class PrescriptionPolicy < ApplicationPolicy
   class Scope < Scope
   attr_reader :user, :prescription
-
-	def initialize(user, prescription)
-		@user = user
-		@prescription = prescription
-	end
 	
     def resolve
-	  if user == nil
-		raise Pundit::NotAuthorizedError
-      elsif user.try(:admin?)
+      if user.try(:admin?)
         scope.all
-	  elsif user.class.table_name == "doctors"
+	  elsif user.is_a?(Doctor)
         scope.where(doctor_id: @user.id)
 	  else
 		raise Pundit::NotAuthorizedError
@@ -20,26 +13,26 @@ class PrescriptionPolicy < ApplicationPolicy
 	end
   end
 	def index?
-		user.try(:admin?) or user.class.table_name == "doctors"
+		user.try(:admin?) or user.is_a?(Doctor)
 	end
 	
 	def new?
-		user.try(:admin?) or user.class.table_name == "doctors"
+		user.try(:admin?) or user.is_a?(Doctor)
 	end
 	
 	def show?
-		user.try(:admin?) or user.class.table_name == "doctors"
+		user.try(:admin?) or user.is_a?(Doctor)
 	end
 	
 	def create?
-		user.try(:admin?) or user.class.table_name == "doctors"
+		user.try(:admin?) or user.is_a?(Doctor)
 	end
 	
 	def update?
-		user.try(:admin?) or user.class.table_name == "doctors"
+		user.try(:admin?) or user.is_a?(Doctor)
 	end
 	
 	def destroy?
-		user.try(:admin?) or user.class.table_name == "doctors"
+		user.try(:admin?) or user.is_a?(Doctor)
 	end
 end

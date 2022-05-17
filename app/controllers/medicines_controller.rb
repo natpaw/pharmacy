@@ -56,7 +56,6 @@ class MedicinesController < ApplicationController
   def destroy
 	authorize @medicine
     @medicine.destroy
-
     respond_to do |format|
       format.html { redirect_to medicines_url, notice: "Medicine was successfully destroyed." }
       format.json { head :no_content }

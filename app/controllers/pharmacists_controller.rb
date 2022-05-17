@@ -4,10 +4,12 @@ class PharmacistsController < ApplicationController
   # GET /pharmacists or /pharmacists.json
   def index
     @pharmacists = Pharmacist.all
+	authorize @pharmacists
   end
 
   # GET /pharmacists/1 or /pharmacists/1.json
   def show
+	authorize @pharmacist
   end
 
   # GET /pharmacists/new
@@ -17,6 +19,7 @@ class PharmacistsController < ApplicationController
 
   # GET /pharmacists/1/edit
   def edit
+	authorize @pharmacist
   end
 
   # POST /pharmacists or /pharmacists.json
@@ -36,6 +39,7 @@ class PharmacistsController < ApplicationController
 
   # PATCH/PUT /pharmacists/1 or /pharmacists/1.json
   def update
+	authorize @pharmacist
     respond_to do |format|
       if @pharmacist.update(pharmacist_params)
         format.html { redirect_to pharmacist_url(@pharmacist), notice: "Pharmacist was successfully updated." }
@@ -49,6 +53,7 @@ class PharmacistsController < ApplicationController
 
   # DELETE /pharmacists/1 or /pharmacists/1.json
   def destroy
+	authorize @pharmacist
     @pharmacist.destroy
 
     respond_to do |format|

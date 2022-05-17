@@ -68,7 +68,7 @@ class OrderedMedicinesController < ApplicationController
     end
 	
 	def get_order
-		@order = Order.find(params[:order_id])
+		@order = policy_scope(Order).find(params[:id])
 	end
 
     # Only allow a list of trusted parameters through.

@@ -40,7 +40,6 @@ class PrescriptionsController < ApplicationController
 
   # PATCH/PUT /prescriptions/1 or /prescriptions/1.json
   def update
-	@prescription = current_doctor.prescriptions.find(params[:id])
 	authorize @prescription
     respond_to do |format|
       if @prescription.update(prescription_params)
@@ -55,8 +54,8 @@ class PrescriptionsController < ApplicationController
 
   # DELETE /prescriptions/1 or /prescriptions/1.json
   def destroy
-    @prescription.destroy
 	authorize @prescription
+    @prescription.destroy
     respond_to do |format|
       format.html { redirect_to prescriptions_url, notice: "Prescription was successfully destroyed." }
       format.json { head :no_content }
@@ -66,7 +65,7 @@ class PrescriptionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_prescription
-      @prescription = Prescription.find(params[:id])
+      @prescription = policy_scope(Prescription).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

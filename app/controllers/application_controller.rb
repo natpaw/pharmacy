@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def pundit_user
+		
 		if doctor_signed_in?
 			current_doctor
 		elsif pharmacist_signed_in?

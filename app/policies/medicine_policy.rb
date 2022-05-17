@@ -2,10 +2,6 @@ class MedicinePolicy < ApplicationPolicy
   class Scope < Scope
     attr_reader :user, :medicine
 
-	def initialize(user, medicine)
-		@user = user
-		@medicine = medicine
-	end
   end
 	def index?
 		user.try(:admin?) or user.class.table_name == "pharmacists"

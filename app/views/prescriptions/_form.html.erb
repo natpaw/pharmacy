@@ -37,8 +37,7 @@
   </div>
   
   <div class="field">
-    <%= form.label :"Лікар" %>
-    <%= form.number_field :doctor_id %>
+    <%= form.hidden_field :doctor_id, value: current_doctor.id %>
   </div>
   
   <div class="actions">
