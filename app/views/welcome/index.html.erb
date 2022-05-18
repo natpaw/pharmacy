@@ -17,6 +17,6 @@
 <%= link_to 'Рецепти', prescriptions_path %>
 
 <p>В наявності</p>
-<%= pie_chart Medicine.group(:name).count %>
+<%= pie_chart Medicine.group(:name).sum(:quantity) %>
 
 </body>
