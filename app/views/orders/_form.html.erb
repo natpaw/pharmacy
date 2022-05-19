@@ -12,8 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :"Користувач" %>
-    <%= form.number_field :user_id %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
   </div>
 
   <div class="field">
@@ -28,7 +27,7 @@
   
   <div class="field">
     <%= form.label :"Статус" %>
-    <%= form.select :status, [["В очікуванні", "pending" ], ["Відмінений", "declined"], ["Завершений", "complited"]] %>
+    <%= form.select :status, [["В очікуванні", "pending" ], ["Відмінений", "declined"], ["Завершений", "completed"]] %>
   </div>
   
   <div class="actions">

@@ -8,21 +8,25 @@ class MedicinesController < ApplicationController
 
   # GET /medicines/1 or /medicines/1.json
   def show
+	authorize @medicine
   end
 
   # GET /medicines/new
   def new
     @medicine = Medicine.new
+	authorize @medicine
   end
 
   # GET /medicines/1/edit
   def edit
+	authorize @medicine
   end
 
   # POST /medicines or /medicines.json
   def create
-    @medicine = Medicine.new(medicine_params)
 
+    @medicine = Medicine.new(medicine_params)
+	authorize @medicine
     respond_to do |format|
       if @medicine.save
         format.html { redirect_to medicine_url(@medicine), notice: "Medicine was successfully created." }
@@ -36,6 +40,7 @@ class MedicinesController < ApplicationController
 
   # PATCH/PUT /medicines/1 or /medicines/1.json
   def update
+	authorize @medicine
     respond_to do |format|
       if @medicine.update(medicine_params)
         format.html { redirect_to medicine_url(@medicine), notice: "Medicine was successfully updated." }
@@ -49,8 +54,8 @@ class MedicinesController < ApplicationController
 
   # DELETE /medicines/1 or /medicines/1.json
   def destroy
+	authorize @medicine
     @medicine.destroy
-
     respond_to do |format|
       format.html { redirect_to medicines_url, notice: "Medicine was successfully destroyed." }
       format.json { head :no_content }

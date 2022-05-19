@@ -6,11 +6,23 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 	<link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+	<%= stylesheet_pack_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_pack_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+
   </head>
 
   <body>
+	<h1>Моя аптека</h1>
+	<% if user_signed_in? %> 
+		<%= link_to "Вихід", destroy_user_session_path, method: :delete %>
+	<% end %>
+	<% if doctor_signed_in? %> 
+		<%= link_to "Вихід", destroy_doctor_session_path, method: :delete %>
+	<% end %>
+	<% if pharmacist_signed_in? %> 
+		<%= link_to "Вихід", destroy_pharmacist_session_path, method: :delete %>
+	<% end %>
+	<%= link_to "На головну", root_path %>
     <%= yield %>
   </body>
 </html>

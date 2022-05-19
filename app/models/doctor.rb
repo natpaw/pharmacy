@@ -6,4 +6,6 @@ class Doctor < ApplicationRecord
 	validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i, message: 'Only emails allowed' }
 
 	has_many :prescriptions	
+	
+	devise :database_authenticatable, :timeoutable
 end
