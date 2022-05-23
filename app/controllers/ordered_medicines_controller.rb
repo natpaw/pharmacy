@@ -6,24 +6,29 @@ class OrderedMedicinesController < ApplicationController
   # GET /ordered_medicines or /ordered_medicines.json
   def index
     @ordered_medicines = @order.ordered_medicines
+	authorize @ordered_medicines
   end
 
   # GET /ordered_medicines/1 or /ordered_medicines/1.json
   def show
+	authorize @ordered_medicine
   end
 
   # GET /ordered_medicines/new
   def new
     @ordered_medicine = @order.ordered_medicines.build
+	authorize @ordered_medicine
   end
 
   # GET /ordered_medicines/1/edit
   def edit
+	authorize @ordered_medicine
   end
 
   # POST /ordered_medicines or /ordered_medicines.json
   def create
     @ordered_medicine = @order.ordered_medicines.build(ordered_medicine_params)
+	authorize @ordered_medicine
 
     respond_to do |format|
       if @ordered_medicine.save
@@ -38,6 +43,7 @@ class OrderedMedicinesController < ApplicationController
 
   # PATCH/PUT /ordered_medicines/1 or /ordered_medicines/1.json
   def update
+	authorize @ordered_medicine
     respond_to do |format|
       if @ordered_medicine.update(ordered_medicine_params)
         format.html { redirect_to order_ordered_medicine_path(@order, @ordered_medicine), notice: "Ordered medicine was successfully updated." }
@@ -51,6 +57,7 @@ class OrderedMedicinesController < ApplicationController
 
   # DELETE /ordered_medicines/1 or /ordered_medicines/1.json
   def destroy
+	authorize @ordered_medicine
     @ordered_medicine.destroy
 
     respond_to do |format|

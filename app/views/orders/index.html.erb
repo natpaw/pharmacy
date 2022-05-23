@@ -20,7 +20,7 @@
 		<td><%= order.user.first_name + " " + order.user.last_name %></td>
         <td><%= order.pharmacist.first_name + " " + order.pharmacist.last_name %></td>
         <td><%= order.status %></td>
-        <td><%= link_to 'Показати', order %></td>
+        <td><%= link_to 'Показати', order_ordered_medicines_url(order) %></td>
         <td><%= link_to 'Редагувати', edit_order_path(order) %></td>
         <td><%= link_to 'Видалити', order, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
       </tr>

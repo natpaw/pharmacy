@@ -1,5 +1,24 @@
 <p id="notice"><%= notice %></p>
-<%= link_to 'Показати замовлення', [@order] %>
+<h1>Ваше замовлення</h1>
+<p>
+  <strong>Створено:</strong>
+  <%= @order.created_at %>
+</p>
+
+<p>
+  <strong>Користувач:</strong>
+  <%= @order.user.first_name + " " + @order.user.last_name %>
+</p>
+
+<p>
+  <strong>Фармацевт:</strong>
+  <%= @order.pharmacist.first_name + " " + @order.pharmacist.last_name %>
+</p>
+
+<p>
+  <strong>Статус:</strong>
+  <%= @order.status %>
+</p>
 <h1>Ліки в замовленні</h1>
 
 <table>

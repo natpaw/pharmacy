@@ -13,9 +13,8 @@ class ApplicationController < ActionController::Base
 			current_doctor
 		elsif pharmacist_signed_in?
 			current_pharmacist
-		elsif current_user 
+		else
 			current_user
-		else 'guest'
 		end
 	end
 end
