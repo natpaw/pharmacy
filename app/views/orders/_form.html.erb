@@ -11,9 +11,11 @@
     </div>
   <% end %>
 
+<% if user_signed_in? %>
   <div class="field">
     <%= form.hidden_field :user_id, value: current_user.id %>
   </div>
+<% end %>
 
   <div class="field">
     <%= form.label :"Фармацевт" %>
@@ -25,11 +27,19 @@
     <%= form.text_area :comment %>
   </div>
   
+<% if pharmacist_signed_in? %>
   <div class="field">
     <%= form.label :"Статус" %>
-    <%= form.select :status, [["В очікуванні", "pending" ], ["Відмінений", "declined"], ["Завершений", "completed"]] %>
+    <%= form.select :status, [["Відмінений", "declined"], ["Завершений", "completed"]] %>
   </div>
-  
+<% end %>
+
+<% if user_signed_in? and method = 'patch'%>
+  <div class="field">
+	<%= form.hidden_field :status, value: 'pending' %>
+  </div>
+<% end %>
+
   <div class="actions">
     <%= form.submit "Зберегти"%>
   </div>

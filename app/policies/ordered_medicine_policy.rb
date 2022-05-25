@@ -19,7 +19,7 @@ class OrderedMedicinePolicy < ApplicationPolicy
 	end
 	
 	def new?
-		user.is_a?(User) and !record.order.completed?
+		user.is_a?(User) and !record.order.completed? and !record.order.pending?
 	end
 	
 	def show?
@@ -27,15 +27,15 @@ class OrderedMedicinePolicy < ApplicationPolicy
 	end
 	
 	def create?
-		user.is_a?(User) and !record.order.completed?
+		user.is_a?(User) and !record.order.completed? and !record.order.pending?
 	end
 	
 	def update?
-		user.is_a?(Pharmacist) or user.is_a?(User) and !record.order.completed?
+		user.is_a?(User) and !record.order.completed? and !record.order.pending?
 	end
 	
 	def destroy?
-		user.is_a?(User) and !record.order.completed?
+		user.is_a?(User) and !record.order.completed? and !record.order.pending?
 	end
 end
 

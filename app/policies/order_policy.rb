@@ -35,7 +35,7 @@ class OrderPolicy < ApplicationPolicy
 	end
 	
 	def destroy?
-		user.is_a?(User) and !record.completed?
+		user.is_a?(User) and !record.completed? and !record.pending?
 	end
 end
 

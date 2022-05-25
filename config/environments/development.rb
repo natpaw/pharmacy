@@ -70,7 +70,10 @@ Rails.application.configure do
 	  :port => '2525',
 	  :authentication => :cram_md5
 	}
+  
+  Rails.logger = Logger.new(STDOUT)
 
+  config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
