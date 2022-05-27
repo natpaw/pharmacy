@@ -5,7 +5,7 @@ class OrderPolicy < ApplicationPolicy
       if user.try(:admin?)
         scope.all
 	  elsif user.is_a?(Pharmacist)
-        scope.all
+        scope.where(status: 'pending')
 	  elsif user.is_a?(User)
         scope.where(user_id: @user.id)
 	  else

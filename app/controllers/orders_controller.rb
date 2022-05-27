@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
+  rescue_from CheckMedicine::EmptyOrderError, with: :empty_order
   rescue_from CheckMedicine::MedicineQuantityError, with: :medicine_not_enough
   
   # GET /orders or /orders.json
@@ -43,10 +44,10 @@ class OrdersController < ApplicationController
   def update
 	authorize @order
 	total = OrderTotal.call(params[:id])
+	CheckMedicine.call(params[:id])
     respond_to do |format|
       if @order.update(order_params.merge(:total => total))
 		if order_params[:status] == 'pending'
-			CheckMedicine.call(params[:id])
 			MedicineBooking.call(params[:id])
 			OrderMailer.with(order: @order).order_user_email.deliver_later
 			OrderMailer.with(order: @order).order_admin_email.deliver_later
@@ -62,6 +63,11 @@ class OrdersController < ApplicationController
       end
     end
 	
+  end
+  
+  def empty_order
+	flash[:alert] = "Замовлення порожнє. Додайте ліки в замовлення"
+	render "edit"
   end
   
   def medicine_not_enough

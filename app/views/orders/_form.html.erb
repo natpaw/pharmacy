@@ -1,3 +1,4 @@
+<% @status = order.id.present? ? 'pending' : 'fresh' %>
 <%= form_with(model: order) do |form| %>
   <% if order.errors.any? %>
     <div id="error_explanation">
@@ -17,10 +18,17 @@
   </div>
 <% end %>
 
+<% if @status == 'fresh' %>
   <div class="field">
-    <%= form.label :"Фармацевт" %>
-    <%= form.number_field :pharmacist_id %>
+    <%= form.hidden_field :pharmacist_id, value: Pharmacist.first.id %>
   </div>
+<% end %>
+
+<% if pharmacist_signed_in? %>
+  <div class="field">
+    <%= form.hidden_field :pharmacist_id, value: current_pharmacist.id %>
+  </div>
+<% end %>
 
   <div class="field">
     <%= form.label :"Коментар" %>
@@ -34,9 +42,9 @@
   </div>
 <% end %>
 
-<% if user_signed_in? and method = 'patch'%>
+<% if user_signed_in? %>
   <div class="field">
-	<%= form.hidden_field :status, value: 'pending' %>
+	<%= form.hidden_field :status, value: @status %>
   </div>
 <% end %>
 

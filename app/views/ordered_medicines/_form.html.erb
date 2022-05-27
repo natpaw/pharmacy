@@ -12,8 +12,13 @@
       </ul>
     </div>
   <% end %>
-
-    <div class="field">
+  
+  <div class="field">
+    <%= form.label :"Ліки" %>
+    <%= form.collection_select :medicine_id, Medicine.order(:name), :id, :name%> 
+  </div>
+  
+  <div class="field">
     <%= form.label :"Рецепт" %>
     <%= form.text_field :presc_number %>
   </div>
@@ -21,11 +26,6 @@
   <div class="field">
     <%= form.label :"Кількість" %>
     <%= form.number_field :quantity %>
-  </div>
-  
-  <div class="field">
-    <%= form.label :"Ліки" %>
-    <%= form.number_field :medicine_id %>
   </div>
   
   <div class="field">

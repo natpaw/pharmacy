@@ -1,5 +1,6 @@
 
 class Prescription < ApplicationRecord
+	validates :number, uniqueness: true
 	validates :number, :exp_date, :quantity, presence: true
 	validates :quantity, numericality: { only_integer: true }
 	validates :number, format: { with: /\РЛ[0-9]{6}\z/ }
