@@ -14,17 +14,17 @@
   <% end %>
   
   <div class="field">
-    <%= form.label :"Ліки" %>
+    <%= form.label :"Ліки" %><br>
     <%= form.collection_select :medicine_id, Medicine.order(:name), :id, :name%> 
   </div>
   
   <div class="field">
-    <%= form.label :"Рецепт" %>
+    <%= form.label :"Рецепт" %><br>
     <%= form.text_field :presc_number %>
   </div>
 
   <div class="field">
-    <%= form.label :"Кількість" %>
+    <%= form.label :"Кількість" %><br>
     <%= form.number_field :quantity %>
   </div>
   

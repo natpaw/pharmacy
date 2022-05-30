@@ -16,13 +16,18 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-		<td><%= order.created_at %></td>
+		<td><%= order.created_at.strftime('%d/%m/%Y %H:%M') %></td>
 		<td><%= order.user.first_name + " " + order.user.last_name %></td>
         <td><%= order.pharmacist.first_name + " " + order.pharmacist.last_name %></td>
         <td><%= order.status %></td>
         <td><%= link_to 'Показати', order_ordered_medicines_url(order) %></td>
-        <td><%= link_to 'Редагувати', edit_order_path(order) %></td>
-        <td><%= link_to 'Видалити', order, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<% if user_signed_in? and order.fresh? or order.declined? %></td>
+			<td><%= link_to 'Редагувати', edit_order_path(order) %></td>
+			<td><%= link_to 'Видалити', order, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<% end %>
+		<% if pharmacist_signed_in? and order.pending? %></td>
+			<td><%= link_to 'Редагувати', edit_order_path(order) %></td>
+		<% end %>	
       </tr>
     <% end %>
   </tbody>

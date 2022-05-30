@@ -39,15 +39,17 @@
 		<td><%= ordered_medicine.medicine.price %></td>
         <td><%= ordered_medicine.quantity %></td>
         <td><%= link_to 'Показати', order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id) %></td>
-        <td><%= link_to 'Редагувати', edit_order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id) %></td>
-        <td><%= link_to 'Видалити', order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id), method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<% if user_signed_in? and @order.fresh? or @order.declined? %></td>
+			<td><%= link_to 'Редагувати', edit_order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id) %></td>
+			<td><%= link_to 'Видалити', order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id), method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'Додати ліки в замовлення', new_order_ordered_medicine_path %>
-
-<%= link_to 'Завершити замовлення', edit_order_path(id: @order.id) %>
+<% if user_signed_in? and @order.fresh? or @order.declined? %></td>
+	<%= link_to 'Додати ліки в замовлення', new_order_ordered_medicine_path %>
+	<%= link_to 'Завершити замовлення', edit_order_path(id: @order.id) %>
+<% end %>
