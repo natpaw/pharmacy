@@ -21,7 +21,7 @@
         <td><%= prescription.doctor.first_name + " " + prescription.doctor.last_name %></td>
         <td><%= prescription.status %></td>
         <td><%= link_to 'Показати', prescription %></td>
-		<% if !prescription.used %>
+		<% if !prescription.used? %>
 			<td><%= link_to 'Редагувати', edit_prescription_path(prescription) %></td>
 			<td><%= link_to 'Видалити', prescription, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
 		<% end %>

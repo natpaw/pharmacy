@@ -50,6 +50,5 @@
 
 <br>
 <% if user_signed_in? and @order.fresh? or @order.declined? %></td>
-	<%= link_to 'Додати ліки в замовлення', new_order_ordered_medicine_path %>
 	<%= link_to 'Завершити замовлення', edit_order_path(id: @order.id) %>
 <% end %>

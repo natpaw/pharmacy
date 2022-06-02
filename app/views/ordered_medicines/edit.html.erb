@@ -2,5 +2,4 @@
 
 <%= render 'form', ordered_medicine: @ordered_medicine %>
 
-<%= link_to 'Показати', @ordered_medicine %> |
-<%= link_to 'Назад', order_ordered_medicines_path %>
+<%= link_to 'Назад', edit_order_path(@order) %>
