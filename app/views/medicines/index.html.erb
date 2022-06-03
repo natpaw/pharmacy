@@ -20,16 +20,19 @@
 		<td><%= medicine.name %></td>
         <td><%= medicine.price %></td>
         <td><%= medicine.quantity %></td>
-		<td><%= medicine.children %></td>
-		<td><%= medicine.prescription %></td>
-        <td><%= link_to 'Показати', medicine %></td>
-        <td><%= link_to 'Редагувати', edit_medicine_path(medicine) %></td>
-        <td><%= link_to 'Видалити', medicine, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<td><%= medicine.children? ? 'Так' : 'Ні'  %></td>
+		<td><%= medicine.prescription? ? 'Потрібний' : 'Не потрібний'  %></td>
+		<% if user_signed_in? and current_user.admin? or pharmacist_signed_in? %> 
+			<td><%= link_to 'Показати', medicine %></td>
+			<td><%= link_to 'Редагувати', edit_medicine_path(medicine) %></td>
+			<td><%= link_to 'Видалити', medicine, method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'Нові ліки', new_medicine_path %>
+<% if user_signed_in? and current_user.admin? or pharmacist_signed_in? %>
+	<%= link_to 'Нові ліки', new_medicine_path %>
+<% end %>

@@ -28,7 +28,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
+		UserMailer.with(user: @user).welcome_email.deliver_later
+        format.html { redirect_to new_user_session_path, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -42,6 +43,7 @@ class UsersController < ApplicationController
 	authorize @user
     respond_to do |format|
       if @user.update(user_params)
+		UserMailer.with(user: @user).welcome_email.deliver_later
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else

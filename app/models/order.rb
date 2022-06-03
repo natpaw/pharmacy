@@ -2,9 +2,10 @@ class Order < ApplicationRecord
 	validates :status, presence: true
 	
 	enum status: {
-		pending: 0,
-		declined: 1,
-		completed: 2
+		fresh: 0,
+		pending: 1,
+		declined: 2,
+		completed: 3
 	}
 	belongs_to :user
 	belongs_to :pharmacist

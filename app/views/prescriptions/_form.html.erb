@@ -12,28 +12,28 @@
   <% end %>
   
   <div class="field">
-    <%= form.label :Номер %>
+    <%= form.label :Номер %><br>
     <%= form.text_field :number %>
   </div>
 
   <div class="field">
-    <%= form.label :"Закінчується" %>
+    <%= form.label :"Закінчується" %><br>
     <%= form.date_field :exp_date %>
   </div>
-
+  
   <div class="field">
-    <%= form.label :"Кількість" %>
+    <%= form.label :"Ліки" %><br>
+    <%= form.collection_select :medicine_id, Medicine.order(:name), :id, :name%> 
+  </div>
+  
+  <div class="field">
+    <%= form.label :"Кількість" %><br>
     <%= form.number_field :quantity %>
   </div>
   
   <div class="field">
-    <%= form.label :"Дитячий"%>
+    <%= form.label :"Дитячий"%><br>
     <%= form.check_box :children %>
-  </div>
-  
-  <div class="field">
-    <%= form.label :"Ліки" %>
-    <%= form.number_field :medicine_id %>
   </div>
   
   <div class="field">

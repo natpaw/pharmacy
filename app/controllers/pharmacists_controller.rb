@@ -42,7 +42,7 @@ class PharmacistsController < ApplicationController
 	authorize @pharmacist
     respond_to do |format|
       if @pharmacist.update(pharmacist_params)
-        format.html { redirect_to pharmacist_url(@pharmacist), notice: "Pharmacist was successfully updated." }
+        format.html { redirect_to new_pharmacist_session_path, notice: "Pharmacist was successfully updated." }
         format.json { render :show, status: :ok, location: @pharmacist }
       else
         format.html { render :edit, status: :unprocessable_entity }

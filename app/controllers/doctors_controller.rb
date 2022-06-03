@@ -28,7 +28,7 @@ class DoctorsController < ApplicationController
 
     respond_to do |format|
       if @doctor.save
-        format.html { redirect_to doctor_url(@doctor), notice: "Doctor was successfully created." }
+        format.html { redirect_to new_doctor_session_path, notice: "Doctor was successfully created." }
         format.json { render :show, status: :created, location: @doctor }
       else
         format.html { render :new, status: :unprocessable_entity }

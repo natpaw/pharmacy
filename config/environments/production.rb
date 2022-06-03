@@ -96,6 +96,16 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+	  :user_name => '1ee9b52fe9c2e0',
+	  :password => '8e42e002588f08',
+	  :address => 'smtp.mailtrap.io',
+	  :domain => 'smtp.mailtrap.io',
+	  :port => '2525',
+	  :authentication => :cram_md5
+	}
  
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector

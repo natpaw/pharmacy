@@ -1,7 +1,6 @@
 class OrderedMedicine < ApplicationRecord
 	validates :quantity, presence: true
-	validates :quantity, numericality: { only_integer: true }
-	validates :presc_number, format: { with: /\РЛ[0-9]{6}\z/ }
+	validates :quantity, numericality: { only_integer: true, greater_than: 0 }
 	
 	belongs_to :order
 	belongs_to :medicine
