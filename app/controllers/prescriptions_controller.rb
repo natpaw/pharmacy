@@ -1,7 +1,7 @@
 class PrescriptionsController < ApplicationController
   before_action :set_prescription, only: %i[ show edit update destroy ]
   
-  rescue_from CreatePrescription::NoPresriptionNeededError, with: :no_presc_needed
+  rescue_from CreatePrescription::NoPrescriptionNeededError, with: :no_presc_needed
   rescue_from CreatePrescription::PrescriptionChildrenError, with: :presc_children
   rescue_from CreatePrescription::PrescriptionDateError, with: :presc_date
   

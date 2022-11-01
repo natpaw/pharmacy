@@ -1,4 +1,4 @@
-class CheckMedicine < ApplicationService
+class CheckUpdatedMedicine < ApplicationService
   attr_reader :ordered_medicine
   
   class MedicineAlreadyInOrderError < StandardError
@@ -7,8 +7,9 @@ class CheckMedicine < ApplicationService
 	end
   end
 	
-  def initialize(ordered_medicine)
+  def initialize(ordered_medicine, new_ordered_medicine)
     @ordered_medicine = ordered_medicine
+	@new_ordered_medicine = new_ordered_medicine
 	@order_id = ordered_medicine.order_id
   end
 
@@ -16,10 +17,9 @@ class CheckMedicine < ApplicationService
 	ordered_medicines = OrderedMedicine.where(order_id: @order_id)
 	ordered_medicines.each do |ord_medicine|
 		
-		if @ordered_medicine.medicine == ord_medicine.medicine and @ordered_medicine.id == nil
+		if  @new_ordered_medicine.medicine == ord_medicine.medicine and @ordered_medicine.id != ord_medicine.id 
 			raise MedicineAlreadyInOrderError
-		end	
-
+		end
 	end
 	return true
   end

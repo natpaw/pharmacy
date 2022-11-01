@@ -1,7 +1,7 @@
 class CreatePrescription < ApplicationService
   attr_reader :prescription
   
-  class NoPresriptionNeededError < StandardError
+  class NoPrescriptionNeededError < StandardError
 	def message
 		"Рецепт не потрібний"
 	end
@@ -25,7 +25,7 @@ class CreatePrescription < ApplicationService
   end
 
   def call
-	raise NoPresriptionNeededError unless prescription.medicine.prescription? 
+	raise NoPrescriptionNeededError unless prescription.medicine.prescription? 
 	raise PrescriptionChildrenError unless prescription.medicine.children? == prescription.children
 	raise PrescriptionDateError unless Date.today <= prescription.exp_date
 	return true

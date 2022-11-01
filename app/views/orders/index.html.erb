@@ -18,7 +18,11 @@
       <tr>
 		<td><%= order.created_at.strftime('%d/%m/%Y %H:%M') %></td>
 		<td><%= order.user.first_name + " " + order.user.last_name %></td>
-        <td><%= order.pharmacist.first_name + " " + order.pharmacist.last_name %></td>
+		<% if !order.pharmacist_id.present? %>
+			<td>-</td>
+		<% else %>
+			<td><%= order.pharmacist.first_name + " " + order.pharmacist.last_name %></td>
+		<% end %>
         <td><%= order.status %></td>
         <td><%= link_to 'Показати', order_ordered_medicines_url(order) %></td>
 		<% if user_signed_in? and order.fresh? or order.declined? %></td>

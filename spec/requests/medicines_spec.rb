@@ -20,6 +20,8 @@ RSpec.describe "/medicines", type: :request do
   let(:valid_attributes) { FactoryBot.build(:medicine).attributes.symbolize_keys }
  
   let(:invalid_attributes) { FactoryBot.attributes_for(:medicine, quantity: 'hhh') }
+  
+  let(:pharmacist) { FactoryBot.create(:pharmacist)}
 
   describe "GET /index" do
     it "renders a successful response" do
@@ -32,6 +34,7 @@ RSpec.describe "/medicines", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       medicine = Medicine.create! valid_attributes
+	  sign_in pharmacist
       get medicine_url(medicine)
       expect(response).to be_successful
     end
@@ -39,6 +42,7 @@ RSpec.describe "/medicines", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
+	  sign_in pharmacist
       get new_medicine_url
       expect(response).to be_successful
     end
@@ -47,6 +51,7 @@ RSpec.describe "/medicines", type: :request do
   describe "GET /edit" do
     it "renders a successful response" do
       medicine = Medicine.create! valid_attributes
+	  sign_in pharmacist
       get edit_medicine_url(medicine)
       expect(response).to be_successful
     end
@@ -55,12 +60,14 @@ RSpec.describe "/medicines", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new medicine" do
+		sign_in pharmacist
         expect {
           post medicines_url, params: { medicine: valid_attributes }
         }.to change(Medicine, :count).by(1)
       end
 
       it "redirects to the created medicine" do
+		sign_in pharmacist
         post medicines_url, params: { medicine: valid_attributes }
         expect(response).to redirect_to(medicine_url(Medicine.last))
       end
@@ -68,12 +75,14 @@ RSpec.describe "/medicines", type: :request do
 
     context "with invalid parameters" do
       it "does not create a new medicine" do
+		sign_in pharmacist
         expect {
           post medicines_url, params: { medicine: invalid_attributes }
         }.to change(Medicine, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
+		sign_in pharmacist
         post medicines_url, params: { medicine: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -86,6 +95,7 @@ RSpec.describe "/medicines", type: :request do
 
       it "updates the requested medicine" do
         medicine = Medicine.create! valid_attributes
+		sign_in pharmacist
         patch medicine_url(medicine), params: { medicine: new_attributes }
         medicine.reload
         expect(assigns(:medicine).attributes['name']).to match(new_attributes[:name])
@@ -93,6 +103,7 @@ RSpec.describe "/medicines", type: :request do
 
       it "redirects to the medicine" do
         medicine = Medicine.create! valid_attributes
+		sign_in pharmacist
         patch medicine_url(medicine), params: { medicine: new_attributes }
         medicine.reload
         expect(response).to redirect_to(medicine_url(medicine))
@@ -102,6 +113,7 @@ RSpec.describe "/medicines", type: :request do
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         medicine = Medicine.create! valid_attributes
+		sign_in pharmacist
         patch medicine_url(medicine), params: { medicine: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -111,6 +123,7 @@ RSpec.describe "/medicines", type: :request do
   describe "DELETE /destroy" do
     it "destroys the requested medicine" do
       medicine = Medicine.create! valid_attributes
+	  sign_in pharmacist
       expect {
         delete medicine_url(medicine)
       }.to change(Medicine, :count).by(-1)
@@ -118,6 +131,7 @@ RSpec.describe "/medicines", type: :request do
 
     it "redirects to the medicines list" do
       medicine = Medicine.create! valid_attributes
+	  sign_in pharmacist
       delete medicine_url(medicine)
       expect(response).to redirect_to(medicines_url)
     end

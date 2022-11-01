@@ -6,7 +6,8 @@ class OrderedMedicinesController < ApplicationController
   rescue_from CheckPrescription::PrescriptionNotFoundError, with: :presc_not_found
   rescue_from CheckPrescription::WrongMedicineError, with: :wrong_medicine
   rescue_from CheckPrescription::PrescriptionNotActiveError, with: :presc_not_active
-
+  rescue_from CheckMedicine::MedicineAlreadyInOrderError, with: :already_in_order
+  rescue_from CheckUpdatedMedicine::MedicineAlreadyInOrderError, with: :already_in_order
   
   #some_params = params.require(:ordered_medicine).permit(:presc_number, :quantity, :medicine_id, :order_id)
   # GET /ordered_medicines or /ordered_medicines.json
@@ -36,6 +37,7 @@ class OrderedMedicinesController < ApplicationController
     @ordered_medicine = @order.ordered_medicines.build(ordered_medicine_params)
 	authorize @ordered_medicine
 	CheckPrescription.call(@ordered_medicine)
+	CheckMedicine.call(@ordered_medicine)
     respond_to do |format|
       if @ordered_medicine.save
         format.html { redirect_to edit_order_path(@order), notice: "Ordered medicine was successfully created." }
@@ -50,8 +52,9 @@ class OrderedMedicinesController < ApplicationController
   # PATCH/PUT /ordered_medicines/1 or /ordered_medicines/1.json
   def update
 	authorize @ordered_medicine
-	@ordered_medicine = @order.ordered_medicines.build(ordered_medicine_params)
-	CheckPrescription.call(@ordered_medicine)
+	@new_ordered_medicine = @order.ordered_medicines.build(ordered_medicine_params)
+	CheckPrescription.call(@new_ordered_medicine)
+	CheckUpdatedMedicine.call(@ordered_medicine, @new_ordered_medicine)
     respond_to do |format|
       if @ordered_medicine.update(ordered_medicine_params)
         format.html { redirect_to edit_order_path(@order), notice: "Ordered medicine was successfully updated." }
@@ -94,6 +97,11 @@ class OrderedMedicinesController < ApplicationController
 	render "edit"
   end
 
+  def already_in_order
+	flash[:alert] = "Ліки вже є в замовленні"
+	render "edit"
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ordered_medicine

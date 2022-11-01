@@ -19,13 +19,14 @@ RSpec.describe "/users", type: :request do
   # adjust the attributes here as well.
   let(:valid_attributes) { FactoryBot.build(:user).attributes.symbolize_keys }
  
-  
-
   let(:invalid_attributes) { FactoryBot.attributes_for(:user, email: 'email') }
+  
+  let(:admin) { FactoryBot.create(:user, admin: true)}
 
   describe "GET /index" do
     it "renders a successful response" do
       User.create! valid_attributes
+	  sign_in admin
       get users_url
       expect(response).to be_successful
     end
@@ -34,6 +35,7 @@ RSpec.describe "/users", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       user = User.create! valid_attributes
+	  sign_in user
       get user_url(user)
       expect(response).to be_successful
     end
@@ -49,6 +51,7 @@ RSpec.describe "/users", type: :request do
   describe "GET /edit" do
     it "renders a successful response" do
       user = User.create! valid_attributes
+	  sign_in user
       get edit_user_url(user)
       expect(response).to be_successful
     end
@@ -64,7 +67,7 @@ RSpec.describe "/users", type: :request do
 
       it "redirects to the created user" do
         post users_url, params: { user: valid_attributes }
-        expect(response).to redirect_to(user_url(User.last))
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -88,6 +91,7 @@ RSpec.describe "/users", type: :request do
 
       it "updates the requested user" do
         user = User.create! valid_attributes
+		sign_in user
         patch user_url(user), params: { user: new_attributes }
         user.reload
         expect(assigns(:user).attributes['first_name']).to match(new_attributes[:first_name])
@@ -95,6 +99,7 @@ RSpec.describe "/users", type: :request do
 
       it "redirects to the user" do
         user = User.create! valid_attributes
+		sign_in user
         patch user_url(user), params: { user: new_attributes }
         user.reload
         expect(response).to redirect_to(user_url(user))
@@ -104,6 +109,7 @@ RSpec.describe "/users", type: :request do
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         user = User.create! valid_attributes
+		sign_in user
         patch user_url(user), params: { user: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -113,6 +119,7 @@ RSpec.describe "/users", type: :request do
   describe "DELETE /destroy" do
     it "destroys the requested user" do
       user = User.create! valid_attributes
+	  sign_in user
       expect {
         delete user_url(user)
       }.to change(User, :count).by(-1)
@@ -120,6 +127,7 @@ RSpec.describe "/users", type: :request do
 
     it "redirects to the users list" do
       user = User.create! valid_attributes
+	  sign_in user
       delete user_url(user)
       expect(response).to redirect_to(users_url)
     end

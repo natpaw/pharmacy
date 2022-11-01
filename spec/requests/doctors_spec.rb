@@ -16,16 +16,20 @@ RSpec.describe "/doctors", type: :request do
   
   # This should return the minimal set of attributes required to create a valid
   # Doctor. As you add validations to Doctor, be sure to
-  # adjust the attributes here as well.
+  # adjust the attributes here as well. 
   let(:valid_attributes) { FactoryBot.attributes_for(:doctor)}
   
   let(:invalid_attributes) {
     FactoryBot.attributes_for(:doctor, email: '')
   }
+  
+  let(:admin) { FactoryBot.create(:user, admin: true)}
+  
 
   describe "GET /index" do
     it "renders a successful response" do
       Doctor.create! valid_attributes
+	  sign_in admin
       get doctors_url
       expect(response).to be_successful
     end
@@ -34,6 +38,7 @@ RSpec.describe "/doctors", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       doctor = Doctor.create! valid_attributes
+	  sign_in doctor
       get doctor_url(doctor)
       expect(response).to be_successful
     end
@@ -49,6 +54,7 @@ RSpec.describe "/doctors", type: :request do
   describe "GET /edit" do
     it "renders a successful response" do
       doctor = Doctor.create! valid_attributes
+	  sign_in doctor
       get edit_doctor_url(doctor)
       expect(response).to be_successful
     end
@@ -64,7 +70,7 @@ RSpec.describe "/doctors", type: :request do
 
       it "redirects to the created doctor" do
         post doctors_url, params: { doctor: valid_attributes }
-        expect(response).to redirect_to(doctor_url(Doctor.last))
+        expect(response).to redirect_to(new_doctor_session_path)
       end
     end
 
@@ -90,6 +96,7 @@ RSpec.describe "/doctors", type: :request do
 
       it "updates the requested doctor" do
         doctor = Doctor.create! valid_attributes
+		sign_in doctor
         patch doctor_url(doctor), params: { doctor: new_attributes }
         doctor.reload
         expect(assigns(:doctor).attributes['first_name']).to match(new_attributes[:first_name])
@@ -97,6 +104,7 @@ RSpec.describe "/doctors", type: :request do
 
       it "redirects to the doctor" do
         doctor = Doctor.create! valid_attributes
+		sign_in doctor
         patch doctor_url(doctor), params: { doctor: new_attributes }
         doctor.reload
         expect(response).to redirect_to(doctor_url(doctor))
@@ -106,6 +114,7 @@ RSpec.describe "/doctors", type: :request do
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         doctor = Doctor.create! valid_attributes
+		sign_in doctor
         patch doctor_url(doctor), params: { doctor: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -115,6 +124,7 @@ RSpec.describe "/doctors", type: :request do
   describe "DELETE /destroy" do
     it "destroys the requested doctor" do
       doctor = Doctor.create! valid_attributes
+	  sign_in doctor
       expect {
         delete doctor_url(doctor)
       }.to change(Doctor, :count).by(-1)
@@ -122,6 +132,7 @@ RSpec.describe "/doctors", type: :request do
 
     it "redirects to the doctors list" do
       doctor = Doctor.create! valid_attributes
+	  sign_in doctor
       delete doctor_url(doctor)
       expect(response).to redirect_to(doctors_url)
     end

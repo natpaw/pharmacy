@@ -21,16 +21,17 @@ RSpec.describe "/orders", type: :request do
   let(:pharmacist) { FactoryBot.create(:pharmacist) }
   
   let(:valid_attributes) {
-   { user_id: user.id, pharmacist_id: pharmacist.id, status: :pending, comment: 'some comment'}
+   { user_id: user.id, pharmacist_id: pharmacist.id, status: :fresh, comment: 'some comment'}
   }
 
   let(:invalid_attributes) {
-    FactoryBot.attributes_for(:order, user_id: 'x', pharmacist_id: pharmacist.id)
+   { user_id: user.id, pharmacist_id: pharmacist.id, status: '', comment: 'some comment'}
   }
 
   describe "GET /index" do
     it "renders a successful response" do
       Order.create! valid_attributes
+	  sign_in user
       get orders_url
       expect(response).to be_successful
     end
@@ -39,6 +40,7 @@ RSpec.describe "/orders", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       order = Order.create! valid_attributes
+	  sign_in user
       get order_url(order)
       expect(response).to be_successful
     end
@@ -46,6 +48,7 @@ RSpec.describe "/orders", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
+	  sign_in user
       get new_order_url
       expect(response).to be_successful
     end
@@ -54,6 +57,7 @@ RSpec.describe "/orders", type: :request do
   describe "GET /edit" do
     it "renders a successful response" do
       order = Order.create! valid_attributes
+	  sign_in user
       get edit_order_url(order)
       expect(response).to be_successful
     end
@@ -62,25 +66,29 @@ RSpec.describe "/orders", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Order" do
+	    sign_in user
         expect {
           post orders_url, params: { order: valid_attributes }
         }.to change(Order, :count).by(1)
       end
 
       it "redirects to the created order" do
+	    sign_in user
         post orders_url, params: { order: valid_attributes }
-        expect(response).to redirect_to(order_url(Order.last))
+        expect(response).to redirect_to(edit_order_url(Order.last))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new Order" do
+	    sign_in user
         expect {
           post orders_url, params: { order: invalid_attributes }
         }.to change(Order, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
+	    sign_in user
         post orders_url, params: { order: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -89,38 +97,42 @@ RSpec.describe "/orders", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-	  let(:new_user) { FactoryBot.create(:user)}
-      let(:new_attributes) {
-        FactoryBot.attributes_for(:order, user_id: new_user.id)
-      }
+	  let(:medicine) { FactoryBot.create(:medicine)}
+	  let(:order) { create :order, user_id: user.id, pharmacist_id: pharmacist.id, status: :fresh, comment: 'a' }
+	  let(:ordered_medicine) { FactoryBot.create(:ordered_medicine, order_id: order.id, medicine_id: medicine.id) }
+      let(:new_attributes) {{user_id: user.id, pharmacist_id: pharmacist.id, status: :fresh, comment: '123'}}
+      
 
       it "updates the requested order" do
-        order = Order.create! valid_attributes
+		sign_in user
         patch order_url(order), params: { order: new_attributes }
         order.reload
-        expect(assigns(:order).attributes['user_id']).to match(new_user.id)
+        expect(assigns(:order).attributes['comment']).to match('123')
       end
 
-      it "redirects to the order" do
-        order = Order.create! valid_attributes
+      it "renders a successful response" do
+		sign_in user
         patch order_url(order), params: { order: new_attributes }
         order.reload
-        expect(response).to redirect_to(order_url(order))
+        expect(response).to be_successful
       end
     end
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        order = Order.create! valid_attributes
+		order = Order.create! valid_attributes
+		sign_in user
         patch order_url(order), params: { order: invalid_attributes }
         expect(response.status).to eq(422)
       end
     end
   end
 
+
   describe "DELETE /destroy" do
     it "destroys the requested order" do
       order = Order.create! valid_attributes
+	  sign_in user
       expect {
         delete order_url(order)
       }.to change(Order, :count).by(-1)
@@ -128,6 +140,7 @@ RSpec.describe "/orders", type: :request do
 
     it "redirects to the orders list" do
       order = Order.create! valid_attributes
+	  sign_in user
       delete order_url(order)
       expect(response).to redirect_to(orders_url)
     end

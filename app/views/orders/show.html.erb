@@ -10,10 +10,12 @@
   <%= @order.user.first_name + " " + @order.user.last_name %>
 </p>
 
+<% if @order.pharmacist_id.present? %>
 <p>
   <strong>Фармацевт:</strong>
   <%= @order.pharmacist.first_name + " " + @order.pharmacist.last_name %>
 </p>
+<% end %>
 
 <p>
   <strong>Статус:</strong>
