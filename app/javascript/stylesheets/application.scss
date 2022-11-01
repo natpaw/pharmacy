@@ -5,8 +5,19 @@
 
 body {
   background-color: #00b36b;
+  margin-left: 40px;
+
+}
+table {
+  width: 50%;
 }
 
+th, td {
+  border-bottom: 1px solid #ddd;
+}
 h1 {
   color: white;
+}
+h2 {
+  color: red;
 }

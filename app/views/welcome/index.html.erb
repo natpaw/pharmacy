@@ -2,11 +2,26 @@
 
 </head>
 <body>
-<h1>Моя аптека</h1>
-<%= link_to 'Користувачі', users_path %>
-<%= link_to 'Замовлення', orders_path %>
+<% if !user_signed_in? && !doctor_signed_in? && !pharmacist_signed_in? %> 
+	<p>Увійти як:</p>
+	<%= link_to 'Користувач', new_user_session_path %>
+	<%= link_to 'Лікар', new_doctor_session_path %>
+	<%= link_to 'Фармацевт', new_pharmacist_session_path %>
+<% end %>
+<p>Меню:</p>
+<% if user_signed_in? and current_user.admin? %> 
+	<%= link_to 'Користувачі', users_path %>
+	<%= link_to 'Фармацевти', pharmacists_path %>
+	<%= link_to 'Лікарі', doctors_path %>
+<% end %>
+<% if user_signed_in? or pharmacist_signed_in? %> 
+	<%= link_to 'Замовлення', orders_path %>
+<% end %>	
 <%= link_to 'Ліки', medicines_path %>
-<%= link_to 'Фармацевти', pharmacists_path %>
-<%= link_to 'Лікарі', doctors_path %>
-<%= link_to 'Рецепти', prescriptions_path %>
+<% if user_signed_in? and current_user.admin? or doctor_signed_in? %> 
+	<%= link_to 'Рецепти', prescriptions_path %>
+<% end %>
+<p>В наявності</p>
+<%= pie_chart Medicine.group(:name).sum(:quantity) %>
+
 </body>

@@ -1,3 +1,4 @@
+<% @status = order.id.present? ? 'pending' : 'fresh' %>
 <%= form_with(model: order) do |form| %>
   <% if order.errors.any? %>
     <div id="error_explanation">
@@ -11,26 +12,37 @@
     </div>
   <% end %>
 
+<% if user_signed_in? %>
   <div class="field">
-    <%= form.label :"Користувач" %>
-    <%= form.number_field :user_id %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
   </div>
+<% end %>
+
+
+<% if pharmacist_signed_in? %>
+  <div class="field">
+    <%= form.hidden_field :pharmacist_id, value: current_pharmacist.id %>
+  </div>
+<% end %>
 
   <div class="field">
-    <%= form.label :"Фармацевт" %>
-    <%= form.number_field :pharmacist_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :"Коментар" %>
+    <%= form.label :"Коментар" %><br>
     <%= form.text_area :comment %>
   </div>
   
+<% if pharmacist_signed_in? %>
   <div class="field">
     <%= form.label :"Статус" %>
-    <%= form.select :status, [["В очікуванні", "pending" ], ["Відмінений", "declined"], ["Завершений", "complited"]] %>
+    <%= form.select :status, [["Відмінений", "declined"], ["Завершений", "completed"]] %>
   </div>
-  
+<% end %>
+
+<% if user_signed_in? %>
+  <div class="field">
+	<%= form.hidden_field :status, value: @status %>
+  </div>
+<% end %>
+
   <div class="actions">
     <%= form.submit "Зберегти"%>
   </div>

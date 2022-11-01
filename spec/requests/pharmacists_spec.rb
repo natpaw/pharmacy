@@ -22,10 +22,13 @@ RSpec.describe "/pharmacists", type: :request do
   let(:invalid_attributes) {
     FactoryBot.attributes_for(:pharmacist, email: '')
   }
+  
+   let(:admin) { FactoryBot.create(:user, admin: true)}
 
   describe "GET /index" do
     it "renders a successful response" do
       Pharmacist.create! valid_attributes
+	  sign_in admin
       get pharmacists_url
       expect(response).to be_successful
     end
@@ -34,6 +37,7 @@ RSpec.describe "/pharmacists", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       pharmacist = Pharmacist.create! valid_attributes
+	  sign_in pharmacist
       get pharmacist_url(pharmacist)
       expect(response).to be_successful
     end
@@ -49,6 +53,7 @@ RSpec.describe "/pharmacists", type: :request do
   describe "GET /edit" do
     it "renders a successful response" do
       pharmacist = Pharmacist.create! valid_attributes
+	  sign_in pharmacist
       get edit_pharmacist_url(pharmacist)
       expect(response).to be_successful
     end
@@ -90,6 +95,7 @@ RSpec.describe "/pharmacists", type: :request do
 
       it "updates the requested pharmacist" do
         pharmacist = Pharmacist.create! valid_attributes
+		sign_in pharmacist
         patch pharmacist_url(pharmacist), params: { pharmacist: new_attributes }
         pharmacist.reload
         expect(assigns(:pharmacist).attributes['first_name']).to match(new_attributes[:first_name])
@@ -97,15 +103,17 @@ RSpec.describe "/pharmacists", type: :request do
 
       it "redirects to the pharmacist" do
         pharmacist = Pharmacist.create! valid_attributes
+		sign_in pharmacist
         patch pharmacist_url(pharmacist), params: { pharmacist: new_attributes }
         pharmacist.reload
-        expect(response).to redirect_to(pharmacist_url(pharmacist))
+        expect(response).to redirect_to(new_pharmacist_session_path)
       end
     end
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         pharmacist = Pharmacist.create! valid_attributes
+		sign_in pharmacist
         patch pharmacist_url(pharmacist), params: { pharmacist: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -115,6 +123,7 @@ RSpec.describe "/pharmacists", type: :request do
   describe "DELETE /destroy" do
     it "destroys the requested pharmacist" do
       pharmacist = Pharmacist.create! valid_attributes
+	  sign_in pharmacist
       expect {
         delete pharmacist_url(pharmacist)
       }.to change(Pharmacist, :count).by(-1)
@@ -122,6 +131,7 @@ RSpec.describe "/pharmacists", type: :request do
 
     it "redirects to the pharmacists list" do
       pharmacist = Pharmacist.create! valid_attributes
+	  sign_in pharmacist
       delete pharmacist_url(pharmacist)
       expect(response).to redirect_to(pharmacists_url)
     end

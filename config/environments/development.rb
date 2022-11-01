@@ -60,7 +60,20 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+  
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+	  :user_name => '1ee9b52fe9c2e0',
+	  :password => '8e42e002588f08',
+	  :address => 'smtp.mailtrap.io',
+	  :domain => 'smtp.mailtrap.io',
+	  :port => '2525',
+	  :authentication => :cram_md5
+	}
+  
+  Rails.logger = Logger.new(STDOUT)
 
+  config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

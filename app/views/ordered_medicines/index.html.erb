@@ -1,11 +1,39 @@
 <p id="notice"><%= notice %></p>
-<%= link_to 'Показати замовлення', [@order] %>
+<h1>Ваше замовлення</h1>
+
+  <strong>Створено:</strong>
+  <%= @order.created_at %>
+<br>
+
+  <strong>Користувач:</strong>
+  <%= @order.user.first_name + " " + @order.user.last_name %>
+<br>
+
+<% if @order.pharmacist_id.present? %>
+  <strong>Фармацевт:</strong>
+  <%= @order.pharmacist.first_name + " " + @order.pharmacist.last_name %>
+<br>
+<% end %>
+
+  <strong>Статус:</strong>
+  <%= @order.status %>
+<br>
+
+  <strong>Коментар:</strong>
+  <%= @order.comment %>
+<br>
+
+  <strong>Сума:</strong>
+  <%= OrderTotal.call(params[:order_id]) %>
+<br>
+
 <h1>Ліки в замовленні</h1>
 
 <table>
   <thead>
 		<th>Рецепт</th>
 		<th>Ліки</th>
+		<th>Ціна</th>
 		<th>Кількість</th>
   </thead>
 
@@ -14,15 +42,19 @@
       <tr>
 	  	<td><%= ordered_medicine.presc_number %></td>
 		<td><%= ordered_medicine.medicine.name %></td>
+		<td><%= ordered_medicine.medicine.price %></td>
         <td><%= ordered_medicine.quantity %></td>
         <td><%= link_to 'Показати', order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id) %></td>
-        <td><%= link_to 'Редагувати', edit_order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id) %></td>
-        <td><%= link_to 'Видалити', order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id), method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<% if user_signed_in? and @order.fresh? or @order.declined? %></td>
+			<td><%= link_to 'Редагувати', edit_order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id) %></td>
+			<td><%= link_to 'Видалити', order_ordered_medicine_path(order_id: @order.id, id: ordered_medicine.id), method: :delete, data: { confirm: 'Ви впевнені?' } %></td>
+		<% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'Додати ліки в замовлення', new_order_ordered_medicine_path %>
+<% if user_signed_in? and @order.fresh? or @order.declined? %></td>
+	<%= link_to 'Завершити замовлення', edit_order_path(id: @order.id) %>
+<% end %>

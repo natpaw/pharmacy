@@ -27,12 +27,13 @@ RSpec.describe "/ordered_medicines", type: :request do
   }
 
   let(:invalid_attributes) {
-    FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, medicine_id: '')
+    FactoryBot.attributes_for(:ordered_medicine, order_id: order.id, medicine_id: medicine.id, quantity: 'a')
   }
 
   describe "GET /index" do
     it "renders a successful response" do
       OrderedMedicine.create! valid_attributes
+	  sign_in user
       get order_ordered_medicines_url(order_id: order.id)
       expect(response).to be_successful
     end
@@ -41,6 +42,7 @@ RSpec.describe "/ordered_medicines", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       ordered_medicine = OrderedMedicine.create! valid_attributes
+	  sign_in user
       get order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id)
       expect(response).to be_successful
     end
@@ -48,6 +50,7 @@ RSpec.describe "/ordered_medicines", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
+	  sign_in user
       get new_order_ordered_medicine_url(order_id: order.id)
       expect(response).to be_successful
     end
@@ -55,7 +58,9 @@ RSpec.describe "/ordered_medicines", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
+	  sign_in user
       ordered_medicine = OrderedMedicine.create! valid_attributes
+	  
       get edit_order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id)
       expect(response).to be_successful
     end
@@ -64,26 +69,30 @@ RSpec.describe "/ordered_medicines", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new OrderedMedicine" do
+		sign_in user
         expect {
           post order_ordered_medicines_url(order_id: order.id), params: { ordered_medicine: valid_attributes }
         }.to change(OrderedMedicine, :count).by(1)
       end
 
       it "redirects to the created ordered_medicine" do
+		sign_in user
         post order_ordered_medicines_url(order_id: order.id), params: { ordered_medicine: valid_attributes }
 		ordered_medicine = OrderedMedicine.last
-        expect(response).to redirect_to(order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id))
+        expect(response).to redirect_to(edit_order_url(id: order.id))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new OrderedMedicine" do
+	    sign_in user
         expect {
           post order_ordered_medicines_url(order_id: order.id), params: { ordered_medicine: invalid_attributes }
         }.to change(OrderedMedicine, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
+	    sign_in user
         post order_ordered_medicines_url(order_id: order.id), params: { ordered_medicine: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -99,6 +108,7 @@ RSpec.describe "/ordered_medicines", type: :request do
 
       it "updates the requested ordered_medicine" do
         ordered_medicine = OrderedMedicine.create! valid_attributes
+		sign_in user
         patch order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id), params: { ordered_medicine: new_attributes }
         ordered_medicine.reload
         expect(assigns(:ordered_medicine).attributes['medicine_id']).to match(new_medicine.id)
@@ -106,15 +116,17 @@ RSpec.describe "/ordered_medicines", type: :request do
 
       it "redirects to the ordered_medicine" do
         ordered_medicine = OrderedMedicine.create! valid_attributes
+		sign_in user
         patch order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id), params: { ordered_medicine: new_attributes }
         ordered_medicine.reload
-        expect(response).to redirect_to(order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id))
+        expect(response).to redirect_to(edit_order_url(id: order.id))
       end
     end
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         ordered_medicine = OrderedMedicine.create! valid_attributes
+		sign_in user
         patch order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id), params: { ordered_medicine: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -124,6 +136,7 @@ RSpec.describe "/ordered_medicines", type: :request do
   describe "DELETE /destroy" do
     it "destroys the requested ordered_medicine" do
       ordered_medicine = OrderedMedicine.create! valid_attributes
+	  sign_in user
       expect {
         delete order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id)
       }.to change(OrderedMedicine, :count).by(-1)
@@ -131,8 +144,9 @@ RSpec.describe "/ordered_medicines", type: :request do
 
     it "redirects to the ordered_medicines list" do
       ordered_medicine = OrderedMedicine.create! valid_attributes
+	  sign_in user
       delete order_ordered_medicine_url(order_id: order.id, id: ordered_medicine.id)
-      expect(response).to redirect_to(order_ordered_medicines_url(order_id: order.id))
+      expect(response).to redirect_to(edit_order_url(id: order.id))
     end
   end
 end
