@@ -8,7 +8,7 @@ class Order < ApplicationRecord
 		completed: 3
 	}
 	belongs_to :user
-	belongs_to :pharmacist
+	belongs_to :pharmacist, optional: true
 	has_many :ordered_medicines, dependent: :destroy
 
 end

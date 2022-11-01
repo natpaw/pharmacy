@@ -17,7 +17,7 @@ RSpec.describe "/prescriptions", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Prescription. As you add validations to Prescription, be sure to
   # adjust the attributes here as well.
-  let(:medicine) { FactoryBot.create(:medicine)}
+  let(:medicine) { FactoryBot.create(:medicine, prescription: true)}
   let(:doctor) { FactoryBot.create(:doctor) }
   
   let(:valid_attributes) {
@@ -25,11 +25,12 @@ RSpec.describe "/prescriptions", type: :request do
   }
 
   let(:invalid_attributes) {
-    FactoryBot.attributes_for(:prescription, doctor_id: doctor.id, medicine_id: '')
+    FactoryBot.attributes_for(:prescription, doctor_id: doctor.id, medicine_id: medicine.id, number: '')
   }
 
   describe "GET /index" do
     it "renders a successful response" do
+	  sign_in doctor
       Prescription.create! valid_attributes
       get prescriptions_url
       expect(response).to be_successful
@@ -38,6 +39,7 @@ RSpec.describe "/prescriptions", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
+	  sign_in doctor
       prescription = Prescription.create! valid_attributes
       get prescription_url(prescription)
       expect(response).to be_successful
@@ -46,6 +48,7 @@ RSpec.describe "/prescriptions", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
+	  sign_in doctor
       get new_prescription_url
       expect(response).to be_successful
     end
@@ -53,6 +56,7 @@ RSpec.describe "/prescriptions", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
+	  sign_in doctor
       prescription = Prescription.create! valid_attributes
       get edit_prescription_url(prescription)
       expect(response).to be_successful
@@ -62,12 +66,14 @@ RSpec.describe "/prescriptions", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Prescription" do
+	    sign_in doctor
         expect {
           post prescriptions_url, params: { prescription: valid_attributes }
         }.to change(Prescription, :count).by(1)
       end
 
       it "redirects to the created prescription" do
+		sign_in doctor
         post prescriptions_url, params: { prescription: valid_attributes }
         expect(response).to redirect_to(prescription_url(Prescription.last))
       end
@@ -75,12 +81,14 @@ RSpec.describe "/prescriptions", type: :request do
 
     context "with invalid parameters" do
       it "does not create a new Prescription" do
+	    sign_in doctor
         expect {
           post prescriptions_url, params: { prescription: invalid_attributes }
         }.to change(Prescription, :count).by(0)
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
+      it "redirects to the edit prescription" do
+	    sign_in doctor
         post prescriptions_url, params: { prescription: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -89,12 +97,13 @@ RSpec.describe "/prescriptions", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-	  let(:new_medicine) { FactoryBot.create(:medicine)}
+	  let(:new_medicine) { FactoryBot.create(:medicine, prescription: true)}
       let(:new_attributes) {
         FactoryBot.attributes_for(:prescription, doctor_id: doctor.id, medicine_id: new_medicine.id)
       }
 
       it "updates the requested prescription" do
+	    sign_in doctor
         prescription = Prescription.create! valid_attributes
         patch prescription_url(prescription), params: { prescription: new_attributes }
         prescription.reload
@@ -102,6 +111,7 @@ RSpec.describe "/prescriptions", type: :request do
       end
 
       it "redirects to the prescription" do
+	    sign_in doctor
         prescription = Prescription.create! valid_attributes
         patch prescription_url(prescription), params: { prescription: new_attributes }
         prescription.reload
@@ -111,6 +121,7 @@ RSpec.describe "/prescriptions", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
+	    sign_in doctor
         prescription = Prescription.create! valid_attributes
         patch prescription_url(prescription), params: { prescription: invalid_attributes }
         expect(response.status).to eq(422)
@@ -120,6 +131,7 @@ RSpec.describe "/prescriptions", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested prescription" do
+	  sign_in doctor
       prescription = Prescription.create! valid_attributes
       expect {
         delete prescription_url(prescription)
@@ -127,6 +139,7 @@ RSpec.describe "/prescriptions", type: :request do
     end
 
     it "redirects to the prescriptions list" do
+	  sign_in doctor
       prescription = Prescription.create! valid_attributes
       delete prescription_url(prescription)
       expect(response).to redirect_to(prescriptions_url)

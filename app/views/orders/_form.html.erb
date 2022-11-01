@@ -18,11 +18,6 @@
   </div>
 <% end %>
 
-<% if @status == 'fresh' %>
-  <div class="field">
-    <%= form.hidden_field :pharmacist_id, value: Pharmacist.first.id %>
-  </div>
-<% end %>
 
 <% if pharmacist_signed_in? %>
   <div class="field">
